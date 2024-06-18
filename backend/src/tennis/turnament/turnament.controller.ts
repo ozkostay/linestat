@@ -3,10 +3,12 @@ import { TurnamentService } from './turnament.service';
 import { CreateTurnamentDto } from './dto/create-turnament.dto';
 import { UpdateTurnamentDto } from './dto/update-turnament.dto';
 
-@Controller('turnament')
+
+@Controller('turnament/tennis')
 export class TurnamentController {
   constructor(private readonly turnamentService: TurnamentService) {}
-
+  
+  // === Turnament
   @Post()
   create(@Body() createTurnamentDto: CreateTurnamentDto) {
     return this.turnamentService.create(createTurnamentDto);

@@ -1,4 +1,4 @@
-export interface CreateTurnamentDto {
+export class CreateTurnamentDto {
   name: string;
   surface: number;
 }

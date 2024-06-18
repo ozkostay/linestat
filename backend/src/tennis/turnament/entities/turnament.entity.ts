@@ -1,5 +1,6 @@
+import { Surface } from "src/tennis/surface/entities/surface.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Surface } from "./surface.entity";
+// import { Surface } from "./surface.entity";
 
 @Entity()
 export class Turnament {

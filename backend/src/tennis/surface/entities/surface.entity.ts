@@ -1,5 +1,5 @@
+import { Turnament } from "src/tennis/turnament/entities/turnament.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Turnament } from "./turnament.entity";
 
 @Entity()
 export class Surface {
