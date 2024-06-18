@@ -11,25 +11,34 @@ export class SurfaceService {
     @InjectRepository(Surface)
     private surfaceRepository: Repository<Surface>,
   ) {}
-  
-  create(createSurfaceDto: CreateSurfaceDto) {
-    return this.surfaceRepository.save(createSurfaceDto);
-    //return 'This action adds a new surface';
+
+  async create(createSurfaceDto: CreateSurfaceDto) {
+    const isExists = await this.findOne(createSurfaceDto.name);
+    if (!isExists) {
+      return await this.surfaceRepository.save(createSurfaceDto);
+    }
+    return 'there is such a type of surface';
   }
 
-  findAll() {
-    return `This action returns all surface`;
+  async findAll() {
+    return await this.surfaceRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} surface`;
+  async findOne(name: string) {
+    const test = await this.surfaceRepository.findOne({
+      where: {
+        name,
+      },
+    });
+    console.log('TEST', test);
+    return test;
   }
 
-  update(id: number, updateSurfaceDto: UpdateSurfaceDto) {
+  async update(id: number, updateSurfaceDto: UpdateSurfaceDto) {
     return `This action updates a #${id} surface`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} surface`;
   }
 }

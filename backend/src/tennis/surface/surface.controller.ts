@@ -18,9 +18,9 @@ export class SurfaceController {
     return this.surfaceService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.surfaceService.findOne(+id);
+  @Get(':name')
+  findOne(@Param('name') name: string) {
+    return this.surfaceService.findOne(name);
   }
 
   @Patch(':id')
