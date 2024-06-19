@@ -13,10 +13,7 @@ export class Turnament {
   @Column()
   public name: string;
 
-  @Column()
-  public surface: string;
-
   @ManyToOne(() => Surface, (surface) => surface.turnaments)
-  public surfaces: Surface;
+  public surface?: Surface;
 
 }

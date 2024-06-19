@@ -20,16 +20,16 @@ export class SurfaceController {
 
   @Get(':name')
   findOne(@Param('name') name: string) {
-    return this.surfaceService.findOne(name);
+    return this.surfaceService.findName(name);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSurfaceDto: UpdateSurfaceDto) {
-    return this.surfaceService.update(+id, updateSurfaceDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateSurfaceDto: UpdateSurfaceDto) {
+  //   return this.surfaceService.update(+id, updateSurfaceDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.surfaceService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.surfaceService.remove(+id);
+  // }
 }

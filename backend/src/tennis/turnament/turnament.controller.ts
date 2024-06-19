@@ -24,13 +24,13 @@ export class TurnamentController {
     return this.turnamentService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTurnamentDto: UpdateTurnamentDto) {
-    return this.turnamentService.update(+id, updateTurnamentDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateTurnamentDto: UpdateTurnamentDto) {
+  //   return this.turnamentService.update(+id, updateTurnamentDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.turnamentService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.turnamentService.remove(+id);
+  // }
 }

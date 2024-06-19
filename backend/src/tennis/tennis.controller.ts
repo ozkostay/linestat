@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TennisService } from './tennis.service';
 import { CreateTennisDto } from './dto/create-tennis.dto';
 import { UpdateTennisDto } from './dto/update-tennis.dto';
@@ -8,8 +16,14 @@ export class TennisController {
   constructor(private readonly tennisService: TennisService) {}
 
   @Post()
-  create(@Body() createTennisDto: CreateTennisDto) {
-    return this.tennisService.create(createTennisDto);
+  create(@Body() createTennisDto: any): any {
+    //CreateTennisDto
+    // console.log('tennisPOST Dto = ', createTennisDto);
+    createTennisDto.forEach((item) => {
+      console.log(item.turnament)
+    });
+    return { kkk: "ok-200"};
+    // return this.tennisService.create(createTennisDto);
   }
 
   @Get()

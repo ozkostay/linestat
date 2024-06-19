@@ -13,25 +13,30 @@ export class SurfaceService {
   ) {}
 
   async create(createSurfaceDto: CreateSurfaceDto) {
-    const isExists = await this.findOne(createSurfaceDto.name);
-    if (!isExists) {
-      return await this.surfaceRepository.save(createSurfaceDto);
-    }
-    return 'there is such a type of surface';
+    return await this.surfaceRepository.save(createSurfaceDto);
   }
 
   async findAll() {
     return await this.surfaceRepository.find();
   }
 
-  async findOne(name: string) {
-    const test = await this.surfaceRepository.findOne({
+  async findName(name: string) {
+    // return surface if exists
+    const isExists = await this.surfaceRepository.findOne({
       where: {
         name,
       },
     });
-    console.log('TEST', test);
-    return test;
+    console.log("=== isEx = ", isExists);
+    if (!isExists) {
+      // creating it manually !!!
+
+      // create surface if not exists and return
+      // const newTurnament = await this.create({ name });
+      // return newTurnament;
+    }
+
+    return isExists;
   }
 
   async update(id: number, updateSurfaceDto: UpdateSurfaceDto) {

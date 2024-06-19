@@ -1,4 +1,4 @@
 export class CreateTurnamentDto {
   name: string;
-  surface: number;
+  surface: string;
 }
