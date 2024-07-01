@@ -6,6 +6,8 @@ import { Turnament } from './entities/turnament.entity';
 import { Repository } from 'typeorm';
 import { Surface } from '../surface/entities/surface.entity';
 import { SurfaceService } from '../surface/surface.service';
+import { FindOneTurnamentDto } from './dto/findOne-turnament.dto';
+import { resolve } from 'path';
 
 @Injectable()
 export class TurnamentService {
@@ -33,9 +35,15 @@ export class TurnamentService {
     return `This action returns all turnament`;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} turnament`;
+  // async findOne(id: number) {
+  //   return `This action returns a #${id} turnament`;
+  // }
+
+  async findByName(objTurnament: FindOneTurnamentDto): Promise<any> {
+    console.log('serv turn', objTurnament)
+    return objTurnament.name;
   }
+
 
   // update(id: number, updateTurnamentDto: UpdateTurnamentDto) {
   //   return `This action updates a #${id} turnament`;

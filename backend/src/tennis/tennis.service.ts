@@ -1,26 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateTennisDto } from './dto/create-tennis.dto';
 import { UpdateTennisDto } from './dto/update-tennis.dto';
+import { BodyFromParsing } from './dto/bodyFromParsing.dto';
+import { TurnamentService } from './turnament/turnament.service';
 
 @Injectable()
 export class TennisService {
-  create(createTennisDto: CreateTennisDto) {
-    return 'This action adds a new tennis';
-  }
+  constructor(
+    private readonly turnamentService: TurnamentService,
+  ) {}
 
-  findAll() {
-    return `This action returns all tennis`;
-  }
+  async receivFromPars(arrLines: BodyFromParsing[]) {
+    arrLines.forEach((item) => {
+      //   // Find turnament, if not then create
+      //this.turnamentService.
+      console.log(item.turnament, item.surface, item.name1, item.name2);
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} tennis`;
+    return { status: 200 };
   }
+  //   create(createTennisDto: CreateTennisDto) {
+  //     return 'This action adds a new tennis';
+  //   }
 
-  update(id: number, updateTennisDto: UpdateTennisDto) {
-    return `This action updates a #${id} tennis`;
-  }
+  //   findAll() {
+  //     return `This action returns all tennis`;
+  //   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tennis`;
-  }
+  //   findOne(id: number) {
+  //     return `This action returns a #${id} tennis`;
+  //   }
+
+  //   update(id: number, updateTennisDto: UpdateTennisDto) {
+  //     return `This action updates a #${id} tennis`;
+  //   }
+
+  //   remove(id: number) {
+  //     return `This action removes a #${id} tennis`;
+  //   }
 }

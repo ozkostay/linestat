@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateSurfaceDto } from './dto/create-surface.dto';
 import { UpdateSurfaceDto } from './dto/update-surface.dto';
 import { Surface } from './entities/surface.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { error } from 'console';
 
 @Injectable()
 export class SurfaceService {
@@ -12,33 +13,29 @@ export class SurfaceService {
     private surfaceRepository: Repository<Surface>,
   ) {}
 
-  async create(createSurfaceDto: CreateSurfaceDto) {
-    return await this.surfaceRepository.save(createSurfaceDto);
-  }
+  // async create(createSurfaceDto: CreateSurfaceDto) {
+  //   return await this.surfaceRepository.save(createSurfaceDto);
+  // }
 
   async findAll() {
-    return await this.surfaceRepository.find();
+    // return await this.surfaceRepository.find();
+    return 'All surface';
   }
 
-  async findName(name: string) {
+  async findName(name: string): Promise<any> {
     // return surface if exists
-    const isExists = await this.surfaceRepository.findOne({
-      where: {
-        name,
-      },
-    });
-    console.log("=== isEx = ", isExists);
-    if (!isExists) {
-      // creating it manually !!!
-
-      // create surface if not exists and return
-      // const newTurnament = await this.create({ name });
-      // return newTurnament;
+      console.log('111');
+      const isExists = await this.surfaceRepository.findOne({
+        where: {
+          name: name.toLowerCase(),
+        },
+      });
+      if (!isExists) {
+        return { id: 0, name: 'no surface'}
+      }
+      return isExists
     }
-
-    return isExists;
-  }
-
+    
   async update(id: number, updateSurfaceDto: UpdateSurfaceDto) {
     return `This action updates a #${id} surface`;
   }

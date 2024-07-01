@@ -1,17 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { SurfaceService } from './surface.service';
 import { CreateSurfaceDto } from './dto/create-surface.dto';
 import { UpdateSurfaceDto } from './dto/update-surface.dto';
 
-@Controller('surface/tennis')
+@Controller('tennis/surface')
 export class SurfaceController {
   constructor(private readonly surfaceService: SurfaceService) {}
 
-  @Post()
-  create(@Body() createSurfaceDto: CreateSurfaceDto) {
-    console.log('=createSurfaceDto==', createSurfaceDto);
-    return this.surfaceService.create(createSurfaceDto);
-  }
+  // @Post()
+  // create(@Body() createSurfaceDto: CreateSurfaceDto) {
+  //   console.log('=createSurfaceDto==', createSurfaceDto);
+  //   return this.surfaceService.create(createSurfaceDto);
+  // }
 
   @Get()
   findAll() {
@@ -19,8 +19,8 @@ export class SurfaceController {
   }
 
   @Get(':name')
-  findOne(@Param('name') name: string) {
-    return this.surfaceService.findName(name);
+  async findOne(@Param('name') name: string) {
+    return await this.surfaceService.findName(name)
   }
 
   // @Patch(':id')
