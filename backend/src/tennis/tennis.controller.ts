@@ -20,7 +20,7 @@ export class TennisController {
     //CreateTennisDto
     // console.log('tennisPOST Dto = ', createTennisDto);
     createTennisDto.forEach((item) => {
-      console.log(item.turnament)
+      console.log(item.turnament, item.name1, item.name2)
     });
     return { kkk: "ok-200"};
     // return this.tennisService.create(createTennisDto);
