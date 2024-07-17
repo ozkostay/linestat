@@ -1,17 +1,5 @@
-export class BodyFromParsing {
-  turnament: string;
-  surface: string;
-  name1: string;
-  name2: string;
-  win1_odds: number;
-  win2_odds: number;
-  handicap1_value: number;
-  handicap1_odds: number;
-  handicap2_value: number;
-  handicap2_odds: number;
-  total_value: number;
-  total1_odds: number;
-  total2_odds: number;
+export class BodyTurnament {
+  name: string;
 }
 
 // turnament: turnament.turnamentName,

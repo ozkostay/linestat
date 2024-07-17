@@ -8,8 +8,6 @@ import {
   Delete,
 } from '@nestjs/common';
 import { TennisService } from './tennis.service';
-import { CreateTennisDto } from './dto/create-tennis.dto';
-import { UpdateTennisDto } from './dto/update-tennis.dto';
 import { BodyFromParsing } from './dto/bodyFromParsing.dto';
 
 @Controller('tennis')

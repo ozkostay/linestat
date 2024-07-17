@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Turnament } from '../turnament/entities/turnament.entity';
-import { Surface } from '../surface/entities/surface.entity';
 
 @Module({
     imports: [
@@ -12,7 +10,7 @@ import { Surface } from '../surface/entities/surface.entity';
         username: 'linestatuser',
         password: 'linestatcrypt',
         database: 'tennis',
-        entities: [Turnament, Surface],
+        entities: [],
         synchronize: true,
       }),
     ],
