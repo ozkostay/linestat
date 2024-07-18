@@ -1,0 +1,4 @@
+SELECT * FROM turnaments
+ORDER BY id
+
+DELETE FROM turnaments WHERE id > 0

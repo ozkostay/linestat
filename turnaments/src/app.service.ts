@@ -16,6 +16,7 @@ export class AppService {
     @InjectRepository(Turnaments)
     private turnamentsRepository: Repository<Turnaments>,
   ) {}
+  
   getHello(): string {
     return 'Hello World! TURNAMENTS';
   }
