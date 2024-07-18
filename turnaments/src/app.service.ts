@@ -9,6 +9,7 @@ mapSurface.set('ТРАВА', 0);
 mapSurface.set('ГРУНТ', 1);
 mapSurface.set('ХАРД', 2);
 mapSurface.set('КОВЕР', 3);
+mapSurface.set('null', 9);
 
 @Injectable()
 export class AppService {
@@ -16,7 +17,7 @@ export class AppService {
     @InjectRepository(Turnaments)
     private turnamentsRepository: Repository<Turnaments>,
   ) {}
-  
+
   getHello(): string {
     return 'Hello World! TURNAMENTS';
   }
