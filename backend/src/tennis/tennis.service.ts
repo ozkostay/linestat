@@ -12,33 +12,40 @@ export class TennisService {
 
   async getTurnament(nameTurnament: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
+    console.log('nameTurnament', nameTurnament);
     let myobservable$: Observable<AxiosResponse<any, any>>;
-    for (let turnament of nameTurnament.keys()) {
+    for (let key of nameTurnament.keys()) {
+      console.log('555 ', key);
       myobservable$ = this.httpService.post('http://localhost:13002', {
-        name: turnament,
+        name: key,
       });
       const response: AxiosResponse<any, any> =
         await lastValueFrom(myobservable$);
       const data: object = await response.data;
-      nameTurnament.set(turnament, data);
+      nameTurnament.set(key, data);
     }
-    
+
     return nameTurnament;
   }
 
   async receivFromPars(arrLines: BodyFromParsing[]) {
     // Делаем уникальные турниры
-    const mapTurnamentName: any = new Map(arrLines.map((i) => [i.turnament, null]));
-    const mapTurns = await this.getTurnament(mapTurnamentName);
-    arrLines.forEach((item) => {
-      item.turnId = mapTurns.get(item.turnament).id; //Заполняем id турнира
+    const mapTurnamentName: any = new Map(
+      arrLines.map((i) => [`${i.turnament}&&&${i.surface}`, null]),
+    );
+    
+    const mapTurns = await this.getTurnament(mapTurnamentName); // Получаем Map() с ID
+
+    arrLines.forEach((i) => {
+      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}`).id; //Заполняем id турнира
     });
 
+    // Получаем ID игроков
     console.log('!!!W', arrLines);
 
     return { status: 200 };
   }
-  
+
   //   create(createTennisDto: CreateTennisDto) {
   //     return 'This action adds a new tennis';
   //   }

@@ -4,6 +4,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Turnaments } from './entities/turnaments.entity';
 
+const mapSurface = new Map();
+mapSurface.set('ТРАВА', 0);
+mapSurface.set('ГРУНТ', 1);
+mapSurface.set('ХАРД', 2);
+mapSurface.set('КОВЕР', 3);
+
 @Injectable()
 export class AppService {
   constructor(
@@ -19,24 +25,27 @@ export class AppService {
       {
         name_ru: body.name,
         name_en: 'sssddd',
-        surface: 0,
+        surface: mapSurface.get(body.surface),
       };
     const newPhoto = this.turnamentsRepository.create({
-      ...newTurnament
+      ...newTurnament,
     });
     return this.turnamentsRepository.save(newPhoto);
   }
 
   async findTurnament(body: BodyTurnament): Promise<any> {
-    // const { name } = body;
+    const [turnName, turnSurf] = body.name.split('&&&');
+
     const response = await this.turnamentsRepository.findOneBy({
-      name_ru: body.name,
+      name_ru: turnName,
     });
     if (response) {
       return response;
     } else {
-      // return Promise.resolve({ fig: 'nya'})
-      return this.createTurnament(body);
+      return this.createTurnament({
+        name: turnName,
+        surface: turnSurf,
+      });
     }
   }
 

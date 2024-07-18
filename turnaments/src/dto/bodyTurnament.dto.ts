@@ -1,5 +1,6 @@
 export class BodyTurnament {
   name: string;
+  surface?: string;
 }
 
 // turnament: turnament.turnamentName,
