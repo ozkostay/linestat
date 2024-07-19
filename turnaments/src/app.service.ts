@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BodyTurnament } from './dto/bodyTurnament.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, LessThan, Like, Repository } from 'typeorm';
 import { Turnaments } from './entities/turnaments.entity';
 
 const mapSurface = new Map();
@@ -20,6 +20,15 @@ export class AppService {
 
   getHello(): string {
     return 'Hello World! TURNAMENTS';
+  }
+
+  async getWithArrParam(): Promise<any> {
+    const arrParam = [0, 9];
+    const response = await this.turnamentsRepository.findBy({
+        surface: 2,
+        id: LessThan(715),
+    });
+    return response;
   }
 
   async createTurnament(body: BodyTurnament): Promise<any> {

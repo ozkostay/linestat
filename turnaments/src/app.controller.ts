@@ -10,6 +10,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('arrparam')
+  getWithArrParam(): any {
+    return this.appService.getWithArrParam();
+  }
+
   @Post()
   async main(@Body() body: any): Promise<any> {
     console.log('BODY', body);
