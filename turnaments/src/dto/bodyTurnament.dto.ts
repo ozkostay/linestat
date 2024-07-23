@@ -1,4 +1,5 @@
 export class BodyTurnament {
+  sport: number;
   name: string;
   surface?: string;
 }

@@ -38,7 +38,7 @@ export class TennisService {
         name: key,
       });
       const response: AxiosResponse<any, any> =
-        await lastValueFrom(myobservable$);
+        await lastValueFrom(myobservable$); // Observable => Promis
       const data: object = await response.data;
       namePlayers.set(key, data);
     }
@@ -49,7 +49,7 @@ export class TennisService {
   async receivFromPars(arrLines: BodyFromParsing[]) {
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map(
-      arrLines.map((i) => [`${i.turnament}&&&${i.surface}`, null]), // По &&& потом разделяем
+      arrLines.map((i) => [`${i.turnament}&&&${i.surface}&&&tennis`, null]), // По &&& потом разделяем
     );
     // Делаем уникальныx Игроков
     const mapPlayersName: any = new Map();
@@ -62,10 +62,13 @@ export class TennisService {
     const mapPlayers = await this.getPlayers(mapPlayersName); // Получаем Map() mapPlayers с ID
 
     arrLines.forEach((i) => {
-      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}`).id; //Заполняем id турнира
+      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).id; //Заполняем id турнира
+      i.surfaceId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).surface; //Заполняем id покрытия
       i.name1Id = mapPlayers.get(i.name1).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(i.name2).id; //Заполняем id Игрока2
     });
+
+
 
     // Получаем ID игроков
     console.log('!!!W', arrLines);

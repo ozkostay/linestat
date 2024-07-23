@@ -7,6 +7,9 @@ export class Turnaments {
   public id: number;
 
   @Column()
+  public sport: number;
+
+  @Column()
   public name_ru: string;
   
   @Column()

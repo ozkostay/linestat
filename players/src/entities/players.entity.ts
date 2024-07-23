@@ -1,5 +1,5 @@
 // import { Users } from 'src/user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Players {
@@ -8,7 +8,7 @@ export class Players {
 
   @Column()
   public name_ru: string;
-  
+
   @Column()
   public name_en: string;
 

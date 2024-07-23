@@ -1,5 +1,8 @@
-export class BodyPlayers {
-  name: string;
+export class CreateTurnament {
+  sport: number;
+  name_ru: string;
+  name_en: string;
+  surface: number;
 }
 
 // turnament: turnament.turnamentName,

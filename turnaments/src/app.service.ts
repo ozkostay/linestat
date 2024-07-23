@@ -1,15 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
 import { BodyTurnament } from './dto/bodyTurnament.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, LessThan, Like, Repository } from 'typeorm';
 import { Turnaments } from './entities/turnaments.entity';
+import { CreateTurnament } from './dto/createTurnament.dto';
 
 const mapSurface = new Map();
-mapSurface.set('ТРАВА', 0);
-mapSurface.set('ГРУНТ', 1);
-mapSurface.set('ХАРД', 2);
-mapSurface.set('КОВЕР', 3);
-mapSurface.set('null', 9);
+mapSurface.set('null', 0);
+mapSurface.set('ТРАВА', 1);
+mapSurface.set('ГРУНТ', 2);
+mapSurface.set('ХАРД', 3);
+mapSurface.set('КОВЕР', 4);
 
 @Injectable()
 export class AppService {
@@ -23,29 +24,38 @@ export class AppService {
   }
 
   async getWithArrParam(): Promise<any> {
+    // Просто пример!!! в работе не
     const arrParam = [0, 9];
     const response = await this.turnamentsRepository.findBy({
-        surface: 2,
-        id: LessThan(715),
+      surface: 2,
+      id: LessThan(715),
     });
     return response;
   }
 
   async createTurnament(body: BodyTurnament): Promise<any> {
-    const newTurnament: { name_ru: string; name_en: string; surface: number } =
-      {
-        name_ru: body.name,
-        name_en: 'sssddd',
-        surface: mapSurface.get(body.surface),
-      };
-    const newPhoto = this.turnamentsRepository.create({
-      ...newTurnament,
-    });
-    return this.turnamentsRepository.save(newPhoto);
+    const templateTurnament: CreateTurnament = {
+      sport: body.sport,
+      name_ru: body.name,
+      name_en: ' ',
+      surface: mapSurface.get(body.surface),
+    };
+    const newTurnament = this.turnamentsRepository.create(templateTurnament);
+    return this.turnamentsRepository.save(newTurnament);
   }
 
   async findTurnament(body: BodyTurnament): Promise<any> {
-    const [turnName, turnSurf] = body.name.split('&&&');
+    const [turnName, turnSurf, sport] = body.name.split('&&&');
+
+    let sportId: number;
+    switch (sport) {
+      case 'tennis':
+        sportId = 1;
+        break;
+      default:
+        sportId = 0;
+        break;
+    }
 
     const response = await this.turnamentsRepository.findOneBy({
       name_ru: turnName,
@@ -54,6 +64,7 @@ export class AppService {
       return response;
     } else {
       return this.createTurnament({
+        sport: sportId,
         name: turnName,
         surface: turnSurf,
       });
