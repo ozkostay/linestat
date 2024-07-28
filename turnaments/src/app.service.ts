@@ -58,6 +58,7 @@ export class AppService {
     }
 
     const response = await this.turnamentsRepository.findOneBy({
+      sport: sportId,
       name_ru: turnName,
     });
     if (response) {

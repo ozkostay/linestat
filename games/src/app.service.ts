@@ -3,6 +3,10 @@ import { BodyGames } from './dto/bodyGames.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Games } from './entities/games.entity';
+import { arrLinesDto } from './dto/arrLines.dto';
+import { setPriority } from 'os';
+import { gamesDto } from './dto/game.dto';
+import { resolve } from 'path';
 
 @Injectable()
 export class AppService {
@@ -15,24 +19,46 @@ export class AppService {
     return 'Hello World! PLAYERS';
   }
 
-  async createGames(body: BodyGames): Promise<any> {
+  async createGames(body: gamesDto): Promise<gamesDto> {
+    console.log('createGames', body.turnament);
+    body.timestamp = new Date();
+    body.result = '';
     const newGame = this.gamesRepository.create(body);
-    newGame.timestamp = new Date();
-    return this.gamesRepository.save(newGame);
+    return await this.gamesRepository.save(newGame);
   }
 
-  async findGames(body: BodyGames): Promise<any> {
-    const response = await this.gamesRepository.findOneBy(body);
+  async findGames(body: arrLinesDto): Promise<gamesDto> {
+    console.log('findGames', body.turnId);
+    const objToFind: gamesDto = {
+      sport: body.sportId,
+      turnament: body.turnId,
+      player1: body.name1Id,
+      player2: body.name2Id,
+      surface: body.surfaceId,
+    };
+    const response = await this.gamesRepository.findOneBy(objToFind);
     if (response) {
       return response;
     } else {
-      return this.createGames(body);
+      return await this.createGames(objToFind);
     }
   }
 
   async getGames(body: BodyGames): Promise<any> {
-    console.log('SERVICE', body);
-    const turnament = this.findGames(body);
-    return turnament;
+    const { arrLines } = body;
+    console.log('GAMES SERVICE');
+
+    const addGameId = new Promise((resolve) => {
+      const arrLinesReturn = [];
+      arrLines.forEach(async (i) => {
+        const temp = Object.assign(i);
+        const res = await this.findGames(i);
+        temp.gameId = res.id;
+        arrLinesReturn.push(temp);
+      });
+      setTimeout(resolve, 1000, arrLinesReturn);
+    })
+
+    return await addGameId;
   }
 }

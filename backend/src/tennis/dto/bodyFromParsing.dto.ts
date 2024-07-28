@@ -13,6 +13,7 @@ export class BodyFromParsing {
   total1_odds: number;
   total2_odds: number;
   turnId?: number;
+  sportId: number;
   surfaceId?: number;
   name1Id?: number;
   name2Id?: number;

@@ -63,15 +63,29 @@ export class TennisService {
 
     arrLines.forEach((i) => {
       i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).id; //Заполняем id турнира
+      i.sportId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).sport; //Заполняем id турнира
       i.surfaceId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).surface; //Заполняем id покрытия
       i.name1Id = mapPlayers.get(i.name1).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(i.name2).id; //Заполняем id Игрока2
     });
 
-
-
+    // Работаем с сервисом GAMES
+    // : Observable<AxiosResponse<any, any>>;
+    const makeGames = async () => {
+      const arrFromGames$ = this.httpService.post('http://localhost:13004', {
+        arrLines: arrLines
+      });
+      const response: AxiosResponse<any, any> =
+        await lastValueFrom(arrFromGames$); // Observable => Promis
+      const data: object = await response.data;
+      console.log('DATA333', data);
+      return data;
+    }
+    
+    const dataFromGames = await makeGames();
+    
     // Получаем ID игроков
-    console.log('!!!W', arrLines);
+    console.log('!!!W dataFromGames)= ', dataFromGames);
 
     return { status: 200 };
   }
