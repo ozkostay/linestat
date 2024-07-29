@@ -48,17 +48,29 @@ export class AppService {
     const { arrLines } = body;
     console.log('GAMES SERVICE');
 
-    const addGameId = new Promise((resolve) => {
+    // Первый рабочий вариант =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // const addGameId = async () => {
+    //   const arrLinesReturn = [];
+    //   for (const i of arrLines) {
+    //     const temp = Object.assign(i);
+    //     const res = await this.findGames(i);
+    //     temp.gameId = res.id;
+    //     arrLinesReturn.push(temp);
+    //   }
+    //   return arrLinesReturn;
+    // };
+
+    const addGameId = async () => {
       const arrLinesReturn = [];
-      arrLines.forEach(async (i) => {
+      for await (const i of arrLines) {
         const temp = Object.assign(i);
         const res = await this.findGames(i);
         temp.gameId = res.id;
         arrLinesReturn.push(temp);
-      });
-      setTimeout(resolve, 1000, arrLinesReturn);
-    })
+      }
+      return arrLinesReturn;
+    };
 
-    return await addGameId;
+    return await addGameId();
   }
 }

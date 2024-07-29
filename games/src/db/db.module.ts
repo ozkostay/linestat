@@ -9,7 +9,7 @@ import { Games } from 'src/entities/games.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_URL,
-      port: 5432,
+      port: Number(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'games',
