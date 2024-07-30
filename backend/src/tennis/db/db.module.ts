@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { Tennis } from '../entities/tennis.entity';
 
 
 @Module({
@@ -13,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'tennis',
-      entities: [],
+      entities: [Tennis],
       synchronize: true,
     }),
   ],

@@ -3,10 +3,14 @@ import { BodyFromParsing } from './dto/bodyFromParsing.dto';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
+import { LinesService } from './lines.service';
 
 @Injectable()
 export class TennisService {
-  constructor(private readonly httpService: HttpService) {
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly linesService: LinesService,
+  ) {
     // private readonly turnamentService: TurnamentService,
   }
 
@@ -64,7 +68,9 @@ export class TennisService {
     arrLines.forEach((i) => {
       i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).id; //Заполняем id турнира
       i.sportId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).sport; //Заполняем id турнира
-      i.surfaceId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).surface; //Заполняем id покрытия
+      i.surfaceId = mapTurns.get(
+        `${i.turnament}&&&${i.surface}&&&tennis`,
+      ).surface; //Заполняем id покрытия
       i.name1Id = mapPlayers.get(i.name1).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(i.name2).id; //Заполняем id Игрока2
     });
@@ -73,20 +79,20 @@ export class TennisService {
     // : Observable<AxiosResponse<any, any>>;
     const makeGames = async () => {
       const arrFromGames$ = this.httpService.post('http://localhost:13004', {
-        arrLines: arrLines
+        arrLines: arrLines,
       });
       const response: AxiosResponse<any, any> =
         await lastValueFrom(arrFromGames$); // Observable => Promis
       const data: object = await response.data;
       console.log('DATA333', data);
       return data;
-    }
-    
-    const dataFromGames = await makeGames();
-    
-    // Получаем ID игроков
-    console.log('!!!W dataFromGames)= ', dataFromGames);
+    };
 
+    const dataFromGames = await makeGames();
+
+    // Получаем ID игроков
+    console.log('!!!W dataFromGames)= ', dataFromGames[1]);
+    const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
 }
