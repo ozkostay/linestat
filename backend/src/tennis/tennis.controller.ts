@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { TennisService } from './tennis.service';
 import { BodyFromParsing } from './dto/bodyFromParsing.dto';
+import { LinesDto } from './dto/lines.dto';
 
 @Controller('tennis')
 export class TennisController {
@@ -20,7 +21,8 @@ export class TennisController {
   }
 
   @Post('pars') // Receiving Data from parsing
-  receivFromPars(@Body() bodyFromParsing: BodyFromParsing[]): any {
+  receivFromPars(@Body() bodyFromParsing: LinesDto[]): any {
+    console.log('controller', bodyFromParsing[1]);
     return this.tennisService.receivFromPars(bodyFromParsing);
   }
 

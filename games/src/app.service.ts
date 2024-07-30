@@ -71,6 +71,8 @@ export class AppService {
       return arrLinesReturn;
     };
 
-    return await addGameId();
+    const data =  await addGameId();
+    const objResponse = { arrLines: data}
+    return objResponse;
   }
 }

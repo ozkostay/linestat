@@ -4,6 +4,7 @@ import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { LinesService } from './lines.service';
+import { LinesDto } from './dto/lines.dto';
 
 @Injectable()
 export class TennisService {
@@ -50,7 +51,7 @@ export class TennisService {
     return namePlayers;
   }
 
-  async receivFromPars(arrLines: BodyFromParsing[]) {
+  async receivFromPars(arrLines: LinesDto[]) {
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map(
       arrLines.map((i) => [`${i.turnament}&&&${i.surface}&&&tennis`, null]), // По &&& потом разделяем
@@ -84,15 +85,18 @@ export class TennisService {
       const response: AxiosResponse<any, any> =
         await lastValueFrom(arrFromGames$); // Observable => Promis
       const data: object = await response.data;
-      console.log('DATA333', data);
+      // console.log('DATA333', data);
       return data;
     };
 
-    const dataFromGames = await makeGames();
+    const dataFromGames= await makeGames();
 
     // Получаем ID игроков
-    console.log('!!!W dataFromGames)= ', dataFromGames[1]);
-    const resLines = this.linesService.addLines(dataFromGames);
+    console.log('!!!W dataFromGames)= ', Array.isArray(dataFromGames));
+    
+    //objResponse = { arrLines: dataFromGames};
+
+    const resLines = this.linesService.addLines( dataFromGames );
     return { status: 200 };
   }
 }

@@ -5,9 +5,10 @@ import { DbModule } from './db/db.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
 import { LinesService } from './lines.service';
+import { Tennis } from './entities/tennis.entity';
 
 @Module({
-  imports: [DbModule, TypeOrmModule.forFeature([]), HttpModule],
+  imports: [DbModule, TypeOrmModule.forFeature([Tennis]), HttpModule],
   controllers: [TennisController],
   providers: [TennisService, LinesService],
 })
