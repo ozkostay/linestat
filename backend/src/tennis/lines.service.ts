@@ -14,9 +14,9 @@ export class LinesService {
   ) {}
 
   objectComparison(obj1: CreateDto, obj2: CreateDto) {
-    console.log('DDDDDDD', typeof obj1.win1_odds);
-    console.log('DDDDDDDD', typeof obj2.win1_odds);
-    console.log('DDDDDDDDDD', '1', Number(obj1.win1_odds), '2', obj2.win1_odds);
+    // console.log('DDDDDDD', typeof obj1.win1_odds);
+    // console.log('DDDDDDDD', typeof obj2.win1_odds);
+    // console.log('DDDDDDDDDD', '1', Number(obj1.win1_odds), '2', obj2.win1_odds);
     if (
       obj1.gameId === obj2.gameId &&
       obj1.win1_odds === obj2.win1_odds &&
@@ -38,7 +38,6 @@ export class LinesService {
   }
 
   async createLine(objLine: CreateDto) {
-    console.log('createLines', objLine);
     const newLine = this.tennisRepository.create(objLine);
     return await this.tennisRepository.save(newLine);
   }
@@ -48,16 +47,12 @@ export class LinesService {
     const objToFind: FindLinesDto = {
       gameId: objLine.gameId,
     };
-    //const response = await this.tennisRepository.findOneBy(objToFind);
-
+    
     const response = await this.tennisRepository.findOne({
       where: { gameId: 56 },
       order: { timestamp: "DESC" }
     });
-    //console.log('LATEST',latestRecord);
-
-    console.log('RESPONSE', response);
-
+    
     const objToCreate: CreateDto = {
       timestamp: new Date(),
       gameId: objLine.gameId,
@@ -71,7 +66,7 @@ export class LinesService {
       total_under_odds: objLine.total1_odds,
       total_over_odds: objLine.total2_odds,
     };
-    // && objectComparison(response,objToCreate)
+    
     if (response && this.objectComparison(response, objToCreate)) {
       return response;
     } else {
@@ -91,15 +86,10 @@ export class LinesService {
     return 'Tennis Lines Ok';
   }
 
+  // === Для отладки
   async addOneLine(objLinesIncomming: LinesDto) {
     console.log('Tennis One Lines objLinesIncomming', objLinesIncomming);
-    // const { arrLines } = objLinesIncomming;
-    // for await (const i of arrLines) {
-    //   console.log('=== i.gameId', i.gameId);
-    //   const temp = Object.assign(i);
     const res = await this.findLines(objLinesIncomming);
-    //   // temp.gameId = res.id;
-    // }
     return 'Tennis One Lines Ok';
   }
 }
