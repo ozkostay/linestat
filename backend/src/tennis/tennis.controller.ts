@@ -10,10 +10,11 @@ import {
 import { TennisService } from './tennis.service';
 import { BodyFromParsing } from './dto/bodyFromParsing.dto';
 import { LinesDto } from './dto/lines.dto';
+import { LinesService } from './lines.service';
 
 @Controller('tennis')
 export class TennisController {
-  constructor(private readonly tennisService: TennisService) {}
+  constructor(private readonly tennisService: TennisService, private readonly linesService: LinesService) {}
 
   @Post()
   create(@Body() createTennisDto: any): any {
@@ -24,6 +25,12 @@ export class TennisController {
   receivFromPars(@Body() bodyFromParsing: LinesDto[]): any {
     console.log('controller', bodyFromParsing[1]);
     return this.tennisService.receivFromPars(bodyFromParsing);
+  }
+
+  @Post('onelinetest') // Receiving Data from parsing
+  receivFromLines(@Body() bodyFromParsing: LinesDto): any {
+    console.log('controller one line', bodyFromParsing);
+    return this.linesService.addOneLine(bodyFromParsing);
   }
 
 
