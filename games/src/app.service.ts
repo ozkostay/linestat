@@ -16,7 +16,7 @@ export class AppService {
   ) {}
 
   getHello(): string {
-    return 'Hello World! PLAYERS';
+    return 'Hello World! GAMES';
   }
 
   async createGames(body: gamesDto): Promise<gamesDto> {

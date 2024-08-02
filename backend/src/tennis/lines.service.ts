@@ -14,9 +14,10 @@ export class LinesService {
   ) {}
 
   objectComparison(obj1: CreateDto, obj2: CreateDto) {
-    // console.log('DDDDDDD', typeof obj1.win1_odds);
-    // console.log('DDDDDDDD', typeof obj2.win1_odds);
-    // console.log('DDDDDDDDDD', '1', Number(obj1.win1_odds), '2', obj2.win1_odds);
+    console.log('DDDDDDD', typeof obj1.win1_odds);
+    console.log('DDDDDDDD', typeof obj2.win1_odds);
+    console.log('DDDDDDDDDD', 'games 1', obj1.gameId, '2', obj2.gameId);
+    console.log('DDDDDDDDDD', '1', obj1.win1_odds, '2', obj2.win1_odds);
     if (
       obj1.gameId === obj2.gameId &&
       obj1.win1_odds === obj2.win1_odds &&
@@ -49,7 +50,7 @@ export class LinesService {
     };
     
     const response = await this.tennisRepository.findOne({
-      where: { gameId: 56 },
+      where: objToFind,
       order: { timestamp: "DESC" }
     });
     
