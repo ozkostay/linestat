@@ -6,6 +6,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(bodyParser.json({limit: '50mb'}));
   app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-  await app.listen(13004);
+  await app.listen(process.env.SERVICE_PORT, () => {
+    console.log(`Service BACKEND start on ${process.env.SERVICE_PORT} port`);
+  });
 }
 bootstrap();
