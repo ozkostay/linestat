@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UsePipes,
 } from '@nestjs/common';
 import { TennisService } from './tennis.service';
 import { BodyFromParsing } from './dto/bodyFromParsing.dto';
 import { LinesDto } from './dto/lines.dto';
 import { LinesService } from './lines.service';
+import { ResultPipe } from './result.pipe';
 
 @Controller('tennis')
 export class TennisController {
@@ -20,7 +22,6 @@ export class TennisController {
   create(@Body() createTennisDto: any): any {
     return { kkk: "ok-200"};
   }
-
   @Post('pars') // Receiving Data from parsing
   receivFromPars(@Body() bodyFromParsing: LinesDto[]): any {
     console.log('controller', bodyFromParsing[1]);
@@ -31,6 +32,14 @@ export class TennisController {
   receivFromLines(@Body() bodyFromParsing: LinesDto): any {
     console.log('controller one line', bodyFromParsing);
     return this.linesService.addOneLine(bodyFromParsing);
+  }
+
+  @UsePipes(ResultPipe)
+  @Post('results') // Receiving Data from parsing
+  receivFromResults(@Body() bodyFromResults: any): any {
+    console.log('controller one line', bodyFromResults);
+    return 'RESULTS'
+    // return this.linesService.addOneLine(bodyFromParsing);
   }
 
 
