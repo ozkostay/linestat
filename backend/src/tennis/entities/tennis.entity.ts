@@ -12,6 +12,9 @@ export class Tennis {
   @Column()
   public gameId: number;
 
+  @Column()
+  public game_id: number;
+
   @Column({ type: 'real', nullable: true })
   public win1_odds: number;
 

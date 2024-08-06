@@ -11,19 +11,19 @@ export class TennisService {
   constructor(
     private readonly httpService: HttpService,
     private readonly linesService: LinesService,
-  ) {
-    // private readonly turnamentService: TurnamentService,
-  }
+  ) {}
 
   async getTurnament(nameTurnament: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
     console.log('nameTurnament', nameTurnament);
     let myobservable$: Observable<AxiosResponse<any, any>>;
     for (let key of nameTurnament.keys()) {
-      console.log('555 ', key);
-      myobservable$ = this.httpService.post('http://localhost:13002', {
-        name: key,
-      });
+      myobservable$ = this.httpService.post(
+        `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}`,
+        {
+          name: key,
+        },
+      );
       const response: AxiosResponse<any, any> =
         await lastValueFrom(myobservable$);
       const data: object = await response.data;
@@ -35,13 +35,15 @@ export class TennisService {
 
   async getPlayers(namePlayers: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
-    console.log('nameTurnament', namePlayers);
+    console.log('namePlayer', namePlayers);
     let myobservable$: Observable<AxiosResponse<any, any>>;
     for (let key of namePlayers.keys()) {
-      console.log('555 ', key);
-      myobservable$ = this.httpService.post('http://localhost:13003', {
-        name: key,
-      });
+      myobservable$ = this.httpService.post(
+        `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}`,
+        {
+          name: key,
+        },
+      );
       const response: AxiosResponse<any, any> =
         await lastValueFrom(myobservable$); // Observable => Promis
       const data: object = await response.data;
@@ -52,9 +54,10 @@ export class TennisService {
   }
 
   async receivFromPars(arrLines: LinesDto[]) {
+    const sport = 'tennis';
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map(
-      arrLines.map((i) => [`${i.turnament}&&&${i.surface}&&&tennis`, null]), // По &&& потом разделяем
+      arrLines.map((i) => [`${i.turnament}&&&${i.surface}&&&${sport}`, null]), // По &&& потом разделяем
     );
     // Делаем уникальныx Игроков
     const mapPlayersName: any = new Map();
@@ -67,10 +70,12 @@ export class TennisService {
     const mapPlayers = await this.getPlayers(mapPlayersName); // Получаем Map() mapPlayers с ID
 
     arrLines.forEach((i) => {
-      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).id; //Заполняем id турнира
-      i.sportId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&tennis`).sport; //Заполняем id турнира
+      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&${sport}`).id; //Заполняем id турнира
+      i.sportId = mapTurns.get(
+        `${i.turnament}&&&${i.surface}&&&${sport}`,
+      ).sport; //Заполняем id турнира
       i.surfaceId = mapTurns.get(
-        `${i.turnament}&&&${i.surface}&&&tennis`,
+        `${i.turnament}&&&${i.surface}&&&${sport}`,
       ).surface; //Заполняем id покрытия
       i.name1Id = mapPlayers.get(i.name1).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(i.name2).id; //Заполняем id Игрока2
@@ -79,9 +84,12 @@ export class TennisService {
     // Работаем с сервисом GAMES
     // : Observable<AxiosResponse<any, any>>;
     const makeGames = async () => {
-      const arrFromGames$ = this.httpService.post('http://localhost:13004', {
-        arrLines: arrLines,
-      });
+      const arrFromGames$ = this.httpService.post(
+        `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAME}`,
+        {
+          arrLines: arrLines,
+        },
+      );
       const response: AxiosResponse<any, any> =
         await lastValueFrom(arrFromGames$); // Observable => Promis
       const data: object = await response.data;
@@ -89,14 +97,14 @@ export class TennisService {
       return data;
     };
 
-    const dataFromGames= await makeGames();
+    const dataFromGames = await makeGames();
 
     // Получаем ID игроков
     console.log('!!!W dataFromGames)= ', Array.isArray(dataFromGames));
-    
+
     //objResponse = { arrLines: dataFromGames};
 
-    const resLines = this.linesService.addLines( dataFromGames );
+    const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
 }
