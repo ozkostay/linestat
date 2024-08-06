@@ -88,7 +88,7 @@ export class LinesService {
       delete temp.gameId;
       const res = await this.findLines(i);
     }
-    console.log('Все линии обработаны!');
+    console.log('Все линии обработаны!', Date());
     return 'Tennis Lines Ok';
   }
 
