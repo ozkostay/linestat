@@ -17,5 +17,5 @@ export class LinesDto {
   surfaceId?: number;
   name1Id?: number;
   name2Id?: number;
-  gameId?: number;
+  game_id?: number;
 }

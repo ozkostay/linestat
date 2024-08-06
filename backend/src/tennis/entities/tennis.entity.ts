@@ -9,10 +9,10 @@ export class Tennis {
   @Column()
   public timestamp: Date;
   
-  @Column()
-  public gameId: number;
+  // @Column()
+  // public gameId: number;
 
-  @Column()
+  @Column({ nullable: true })
   public game_id: number;
 
   @Column({ type: 'real', nullable: true })

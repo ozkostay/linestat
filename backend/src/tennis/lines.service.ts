@@ -16,10 +16,11 @@ export class LinesService {
   objectComparison(obj1: CreateDto, obj2: CreateDto) {
     console.log('DDDDDDD', typeof obj1.win1_odds);
     console.log('DDDDDDDD', typeof obj2.win1_odds);
-    console.log('DDDDDDDDDD', 'games 1', obj1.gameId, '2', obj2.gameId);
+    // console.log('DDDDDDDDDD', 'games 1', obj1.gameId, '2', obj2.gameId);
     console.log('DDDDDDDDDD', '1', obj1.win1_odds, '2', obj2.win1_odds);
     if (
-      obj1.gameId === obj2.gameId &&
+      // obj1.gameId === obj2.gameId &&
+      obj1.game_id === obj2.game_id &&
       obj1.win1_odds === obj2.win1_odds &&
       obj1.win2_odds === obj2.win2_odds &&
       obj1.handicap1_value === obj2.handicap1_value &&
@@ -44,9 +45,10 @@ export class LinesService {
   }
 
   async findLines(objLine: LinesDto): Promise<any> {
-    console.log('findLines', objLine.gameId);
+    console.log('findLines', objLine.game_id);
     const objToFind: FindLinesDto = {
-      gameId: objLine.gameId,
+      // gameId: objLine.gameId,
+      game_id: objLine.game_id,
     };
     
     const response = await this.tennisRepository.findOne({
@@ -56,7 +58,8 @@ export class LinesService {
     
     const objToCreate: CreateDto = {
       timestamp: new Date(),
-      gameId: objLine.gameId,
+      // gameId: objLine.gameId,
+      game_id: objLine.game_id,
       win1_odds: objLine.win1_odds,
       win2_odds: objLine.win2_odds,
       handicap1_value: objLine.handicap1_value,
@@ -81,9 +84,11 @@ export class LinesService {
     for await (const i of arrLines) {
       console.log('=== i.gameId', i.gameId);
       const temp = Object.assign(i);
+      temp.game_id = i.gameId;
+      delete temp.gameId;
       const res = await this.findLines(i);
-      // temp.gameId = res.id;
     }
+    console.log('Все линии обработаны!');
     return 'Tennis Lines Ok';
   }
 

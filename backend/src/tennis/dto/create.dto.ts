@@ -1,6 +1,6 @@
 export class CreateDto {
   timestamp: Date;
-  gameId: number;
+  game_id: number;
   win1_odds: number;
   win2_odds: number;
   handicap1_value: number;

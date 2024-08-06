@@ -85,7 +85,7 @@ export class TennisService {
     // : Observable<AxiosResponse<any, any>>;
     const makeGames = async () => {
       const arrFromGames$ = this.httpService.post(
-        `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAME}`,
+        `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}`,
         {
           arrLines: arrLines,
         },
