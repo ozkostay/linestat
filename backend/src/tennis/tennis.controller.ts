@@ -13,6 +13,7 @@ import { BodyFromParsing } from './dto/bodyFromParsing.dto';
 import { LinesDto } from './dto/lines.dto';
 import { LinesService } from './lines.service';
 import { ResultPipe } from './result.pipe';
+import { FromResulttPipe } from './dto/fromResultPipe.dto';
 
 @Controller('tennis')
 export class TennisController {
@@ -36,7 +37,7 @@ export class TennisController {
 
   @UsePipes(ResultPipe)
   @Post('results') // Receiving Data from parsing
-  receivFromResults(@Body() bodyFromResults: any): any {
+  receivFromResults(@Body() bodyFromResults: FromResulttPipe): any {
     console.log('controller one line', bodyFromResults);
     return 'RESULTS'
     // return this.linesService.addOneLine(bodyFromParsing);
