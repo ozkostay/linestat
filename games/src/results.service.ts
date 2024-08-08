@@ -10,8 +10,8 @@ export class ResultsService {
     private gamesRepository: Repository<Games>,
   ) {}
 
-  async addResults(body: any): Promise<any> {
-    console.log('GAME RESULT-SERVISE OK'), body.length, body[1];
+  async addResults(arrResults: any): Promise<any> {
+    console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);
     return { status: 200, message: 'get Results in servise GAME!!!' };
   }
 }

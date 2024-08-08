@@ -20,8 +20,9 @@ export class AppController {
 
   @Post('results')
   async addResults(@Body() body: any): Promise<any> {
-    // console.log('BODY', body);
-    const game = await this.resultsService.addResults(body);
+    const { arrResults } = body;
+    console.log('GAME CONTROLLER RESULTs BODY', arrResults[0]);
+    const game = await this.resultsService.addResults(arrResults);
     return game;
   }
 }
