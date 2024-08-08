@@ -27,4 +27,6 @@ export class Games {
   @Column()
   public result: string;
 
+  @Column({ nullable: true })
+  public date: Date;
 }

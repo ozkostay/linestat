@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResultsService } from './results.service';
+import { InFromSport } from './dto/inFromSport.dto';
+import { InResultPipe } from './in.result.pipe';
 
 @Controller()
 export class AppController {
@@ -18,11 +20,12 @@ export class AppController {
     return game;
   }
 
+  @UsePipes(InResultPipe)
   @Post('results')
-  async addResults(@Body() body: any): Promise<any> {
-    const { arrResults } = body;
-    console.log('GAME CONTROLLER RESULTs BODY', arrResults[0]);
+  async addResults(@Body() arrResults: any[]): Promise<any> {
+    // console.log('GAME CONTROLLER RESULTs BODY', body);
     const game = await this.resultsService.addResults(arrResults);
+    // const game = {aaa:111}
     return game;
   }
 }

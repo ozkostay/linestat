@@ -26,7 +26,7 @@ export class ResultService {
       const resultsSport$ = this.httpService.post(
         `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/results`,
         {
-          arrResults: body,
+          body: body,
         },
       );
 
