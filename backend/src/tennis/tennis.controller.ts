@@ -14,14 +14,19 @@ import { LinesDto } from './dto/lines.dto';
 import { LinesService } from './lines.service';
 import { ResultPipe } from './result.pipe';
 import { FromResulttPipe } from './dto/fromResultPipe.dto';
+import { ResultService } from './results.service';
 
 @Controller('tennis')
 export class TennisController {
-  constructor(private readonly tennisService: TennisService, private readonly linesService: LinesService) {}
+  constructor(
+    private readonly tennisService: TennisService,
+    private readonly linesService: LinesService,
+    private readonly resultService: ResultService,
+  ) {}
 
   @Post()
   create(@Body() createTennisDto: any): any {
-    return { kkk: "ok-200"};
+    return { kkk: 'ok-200' };
   }
   @Post('pars') // Receiving Data from parsing
   receivFromPars(@Body() bodyFromParsing: LinesDto[]): any {
@@ -37,13 +42,11 @@ export class TennisController {
 
   @UsePipes(ResultPipe)
   @Post('results') // Receiving Data from parsing
-  receivFromResults(@Body() bodyFromResults: FromResulttPipe): any {
-    console.log('controller one line', bodyFromResults);
-    console.log('controller one line OK');
-    return 'RESULTS'
-    // return this.linesService.addOneLine(bodyFromParsing);
+  async receivFromResults(@Body() bodyFromPipe: FromResulttPipe[]): Promise<any> {
+    // console.log('controller receivFromResults', bodyFromPipe);
+    // console.log('controller receivFromResults OK');
+    return await this.resultService.addResultsToGames(bodyFromPipe);
   }
-
 
   // @Get()
   // findAll() {

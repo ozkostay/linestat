@@ -7,10 +7,11 @@ import { HttpModule } from '@nestjs/axios';
 import { LinesService } from './lines.service';
 import { Tennis } from './entities/tennis.entity';
 import { TransformDate } from './transformDate';
+import { ResultService } from './results.service';
 
 @Module({
   imports: [DbModule, TypeOrmModule.forFeature([Tennis]), HttpModule],
   controllers: [TennisController],
-  providers: [TennisService, LinesService, TransformDate],
+  providers: [TennisService, LinesService, TransformDate, ResultService],
 })
 export class TennisModule {}
