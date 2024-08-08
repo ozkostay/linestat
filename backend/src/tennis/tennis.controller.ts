@@ -39,6 +39,7 @@ export class TennisController {
   @Post('results') // Receiving Data from parsing
   receivFromResults(@Body() bodyFromResults: FromResulttPipe): any {
     console.log('controller one line', bodyFromResults);
+    console.log('controller one line OK');
     return 'RESULTS'
     // return this.linesService.addOneLine(bodyFromParsing);
   }
