@@ -22,7 +22,7 @@ export class AppService {
   async createGames(body: gamesDto): Promise<gamesDto> {
     console.log('createGames', body.turnament);
     body.timestamp = new Date();
-    body.result = '';
+    // body.result = '';
     const newGame = this.gamesRepository.create(body);
     return await this.gamesRepository.save(newGame);
   }

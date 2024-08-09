@@ -4,24 +4,21 @@ import { InFromSport } from './dto/inFromSport.dto';
 
 @Injectable()
 export class InResultPipe implements PipeTransform {
-  constructor(
-    // private readonly transformDate: TransformDate,
-  ) {}
+  constructor() {}
 
   public transform(inBody: InFromSport, metadata: ArgumentMetadata) {
     const { body } = inBody;
-    console.log('PIPE BODY', body)
     const arrRetrun = [];
     body.forEach((i: any) => {
       arrRetrun.push({
         player1: i.player1,
         player2: i.player2,
         result: i.result,
-        date: new Date(i.date),
+        // date: new Date(i.date),
+        date: i.date,
       });
     });
-    
+
     return arrRetrun;
   }
 }
-

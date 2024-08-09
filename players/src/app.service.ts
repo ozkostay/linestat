@@ -16,6 +16,17 @@ export class AppService {
     return 'Hello World! PLAYERS';
   }
 
+  async getShortNameById(id: number): Promise<any> {
+    try {
+      const response = await this.playresRepository.findOneBy({id});
+      const arrfullName = response.name_ru.split(', ');
+      const shortName = `${arrfullName[1].slice(0,1)}.${arrfullName[0]}`;
+      return { shortName: shortName};
+    } catch (error) {
+      return { status: 400, message: `ID ${id} не найден`};
+    }
+  }
+
   async createPlayers(body: CreatePlayers): Promise<any> {
     console.log('SERVICE createPlayers', body);
     const tempPlayer: object = {};

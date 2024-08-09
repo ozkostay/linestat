@@ -24,7 +24,7 @@ export class Games {
   @Column()
   public surface: number;
 
-  @Column()
+  @Column({ nullable: true })
   public result: string;
 
   @Column({ nullable: true })

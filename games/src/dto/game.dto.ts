@@ -7,4 +7,5 @@ export class gamesDto {
   player2: number;
   surface?: number;
   result?: string;
+  date?: Date;
 }
