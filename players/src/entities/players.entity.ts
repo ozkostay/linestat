@@ -6,6 +6,9 @@ export class Players {
   @PrimaryGeneratedColumn()
   public id: number;
 
+  @Column({nullable: true})
+  public sport: number;
+
   @Column()
   public name_ru: string;
 

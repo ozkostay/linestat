@@ -48,10 +48,10 @@ export class TennisController {
     return await this.resultService.addResultsToGames(bodyFromPipe);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.tennisService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.tennisService.findAll();
+  }
 
   // // @Get(':id')
   // // findOne(@Param('id') id: string) {

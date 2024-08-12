@@ -21,7 +21,7 @@ export class Games {
   @Column()
   public player2: number;
 
-  @Column()
+  @Column({ nullable: true })
   public surface: number;
 
   @Column({ nullable: true })

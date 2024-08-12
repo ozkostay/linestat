@@ -13,6 +13,11 @@ export class TennisService {
     private readonly linesService: LinesService,
   ) {}
 
+  findAll() {
+    console.log(`${process.env.DATABASE_URL}:${process.env.DATABASE_PORT}`);
+    return 'TTTTTTTTTTTTTT'
+  }
+
   async getTurnament(nameTurnament: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
     console.log('nameTurnament', nameTurnament);
