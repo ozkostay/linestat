@@ -6,7 +6,6 @@ import { Turnaments } from './entities/turnaments.entity';
 import { CreateTurnament } from './dto/createTurnament.dto';
 
 const mapSurface = new Map();
-mapSurface.set('null', 0);
 mapSurface.set('ТРАВА', 1);
 mapSurface.set('ГРУНТ', 2);
 mapSurface.set('ХАРД', 3);
@@ -38,7 +37,7 @@ export class AppService {
       sport: body.sport,
       name_ru: body.name,
       name_en: ' ',
-      surface: mapSurface.get(body.surface),
+      surface: mapSurface.get(body.surface) || 0,
     };
     const newTurnament = this.turnamentsRepository.create(templateTurnament);
     return this.turnamentsRepository.save(newTurnament);
@@ -52,18 +51,32 @@ export class AppService {
       case 'tennis':
         sportId = 1;
         break;
+      case 'football':
+        sportId = 2;
+        break;
+      case 'hockey':
+        sportId = 3;
+        break;
+      case 'basketball':
+        sportId = 4;
+        break;
       default:
         sportId = 0;
         break;
     }
 
+    console.log('ttt', 222);
+
     const response = await this.turnamentsRepository.findOneBy({
       sport: sportId,
       name_ru: turnName,
     });
+
     if (response) {
+      console.log('ttt', 333);
       return response;
     } else {
+      console.log('ttt', 3434, turnSurf);
       return this.createTurnament({
         sport: sportId,
         name: turnName,

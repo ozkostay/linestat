@@ -34,14 +34,14 @@ export class TennisController {
     return this.tennisService.receivFromPars(bodyFromParsing);
   }
 
-  @Post('onelinetest') // Receiving Data from parsing
+  @Post('onelinetest') // test
   receivFromLines(@Body() bodyFromParsing: LinesDto): any {
     console.log('controller one line', bodyFromParsing);
     return this.linesService.addOneLine(bodyFromParsing);
   }
 
   @UsePipes(ResultPipe)
-  @Post('results') // Receiving Data from parsing
+  @Post('results') // Receiving Data from result
   async receivFromResults(@Body() bodyFromPipe: FromResulttPipe[]): Promise<any> {
     // console.log('controller receivFromResults', bodyFromPipe);
     // console.log('controller receivFromResults OK');

@@ -4,6 +4,8 @@ import { Players } from './entities/players.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BodyPlayers } from './dto/bodyplayers.dto';
 import { CreatePlayers } from './dto/createplayers.dto';
+import { IncomingMessage } from 'http';
+import { IncomingPlayers } from './dto/incoming.players.dto';
 
 @Injectable()
 export class AppService {
@@ -36,20 +38,47 @@ export class AppService {
     return this.playresRepository.save(newPlayer);
   }
 
-  async findPlayers(body: CreatePlayers): Promise<any> {
+  async findPlayers(body: IncomingPlayers): Promise<any> {
     console.log('SERVICE findPlayers', body);
-    const response = await this.playresRepository.findOneBy(body);
+
+    let sportId: number;
+    switch (body.sport) {
+      case 'tennis':
+        sportId = 1;
+        break;
+      case 'football':
+        sportId = 2;
+        break;
+      case 'hockey':
+        sportId = 3;
+        break;
+      case 'basketball':
+        sportId = 4;
+        break;
+      default:
+        sportId = 0;
+        break;
+    }
+
+    const objToFind: CreatePlayers = {
+      name_ru: body.name_ru , sport: sportId,
+    }
+    const response = await this.playresRepository.findOneBy(objToFind);
     if (response) {
       return response;
     } else {
-      return this.createPlayers(body);
+      return this.createPlayers(objToFind);
     }
   }
 
   async getPlayers(body: BodyPlayers): Promise<any> {
     console.log('SERVICE', body);
-    const findPlayer: CreatePlayers = { name_ru: body.name };
-    const player = this.findPlayers(findPlayer);
+    const arrBody = body.name.split('&&&');
+    
+    const findPlayer: any = { name_ru: arrBody[0], sport: arrBody[1]};
+        const player = this.findPlayers(findPlayer);
+    return { aaa: 111};
+    
     return player;
   }
 }

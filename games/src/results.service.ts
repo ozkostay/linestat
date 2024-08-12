@@ -30,7 +30,10 @@ export class ResultsService {
   }
 
   async queryToPlayers(id: string) {
+    
     const url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/${id}`;
+    console.log('url: ', url)
+
     const arrFromGames$: Observable<AxiosResponse<any, any>> =
       this.httpService.get(url);
     const response: AxiosResponse<any, any> =

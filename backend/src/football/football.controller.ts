@@ -3,11 +3,13 @@ import { FootballService } from './football.service';
 
 @Controller('football')
 export class FootballController {
-  constructor(private readonly footballService: FootballService) {}
+  constructor(private readonly footballService: FootballService,) {}
 
   @Post('pars')
-  create(@Body() body: any) {
+  async receivFromPars(@Body() body: any) {
     console.log('controller football body =', body);
+    const fromSevice = await this.footballService.receivFromPars(body);
+    console.log('football controller fromService', fromSevice);
     return { message: 'Controller football KO!' };
   }
 

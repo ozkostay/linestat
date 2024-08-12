@@ -15,6 +15,6 @@ export class Turnaments {
   @Column()
   public name_en: string;
 
-  @Column()
+  @Column({ nullable: true})
   public surface: number;
 }
