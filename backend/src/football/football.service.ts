@@ -5,6 +5,7 @@ import { Football } from './entities/football.entity';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
+import { LinesService } from './lines.service';
 
 @Injectable()
 export class FootballService {
@@ -12,6 +13,7 @@ export class FootballService {
     @InjectRepository(Football)
     private footballRepository: Repository<Football>,
     private readonly httpService: HttpService,
+    private readonly linesService: LinesService,
   ) {}
 
   findAll() {
@@ -40,7 +42,7 @@ export class FootballService {
 
   async getPlayers(namePlayers: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
-    console.log('namePlayer', namePlayers);
+    // console.log('namePlayer', namePlayers);
     let myobservable$: Observable<AxiosResponse<any, any>>;
     for (let key of namePlayers.keys()) {
       myobservable$ = this.httpService.post(
@@ -54,7 +56,7 @@ export class FootballService {
       const data: object = await response.data;
       namePlayers.set(key, data);
     }
-
+    console.log('namePlayer', namePlayers);
     return namePlayers;
   }
 
@@ -66,6 +68,9 @@ export class FootballService {
       mapTurnamentName.set(`${i.turnament}&&&nosurface&&&${sport}`, null);
     });
     const mapTurns = await this.getTurnament(mapTurnamentName); // Получаем Map() mapTurns с ID из сервиса Turnaments
+    for (const [key, value] of mapTurns) {
+      console.log('===', key, value);
+    }
 
     // Делаем уникальныx Игроков
     const mapPlayersName: any = new Map();
@@ -74,24 +79,25 @@ export class FootballService {
       mapPlayersName.set(`${i.name2}&&&${sport}`, null);
     });
     const mapPlayers = await this.getPlayers(mapPlayersName); // Получаем Map() mapPlayers с ID из сервиса Players
-    for (const [key, value] of mapPlayers) {
-      console.log('===', key, value);
-    }
-    return { message: 'temp return' };
-   
+    
+
+    
 
     arrLines.forEach((i) => {
-      i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&${sport}`).id; //Заполняем id турнира
+      i.turnId = mapTurns.get(`${i.turnament}&&&nosurface&&&${sport}`).id; //Заполняем id турнира
       i.sportId = mapTurns.get(
-        `${i.turnament}&&&${i.surface}&&&${sport}`,
+        `${i.turnament}&&&nosurface&&&${sport}`,
       ).sport; //Заполняем id турнира
       i.surfaceId = mapTurns.get(
-        `${i.turnament}&&&${i.surface}&&&${sport}`,
+        `${i.turnament}&&&nosurface&&&${sport}`,
       ).surface; //Заполняем id покрытия
-      i.name1Id = mapPlayers.get(i.name1).id; //Заполняем id Игрока1
-      i.name2Id = mapPlayers.get(i.name2).id; //Заполняем id Игрока2
+      console.log('999-2',i.name1);
+      i.name1Id = mapPlayers.get(`${i.name1}&&&${sport}`).id; //Заполняем id Игрока1
+      i.name2Id = mapPlayers.get(`${i.name2}&&&${sport}`).id; //Заполняем id Игрока2
     });
 
+    console.log('888', arrLines[2]);
+    
     // Работаем с сервисом GAMES
     // : Observable<AxiosResponse<any, any>>;
     const makeGames = async () => {
@@ -107,15 +113,16 @@ export class FootballService {
       // console.log('DATA333', data);
       return data;
     };
-
+    
+   
     const dataFromGames = await makeGames();
-
-    // Получаем ID игроков
-    console.log('!!!W dataFromGames)= ', Array.isArray(dataFromGames));
+    
+    
+    console.log('!!!W dataFromGames)= ', dataFromGames);
 
     // objResponse = { arrLines: dataFromGames}; НЕ НАДО
 
-    // const resLines = this.linesService.addLines(dataFromGames);
+    const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
 }

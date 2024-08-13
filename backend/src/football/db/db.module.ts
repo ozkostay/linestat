@@ -19,6 +19,6 @@ import { Football } from '../entities/football.entity';
     }),
   ],
 })
-export class DbModule {
+export class DbModuleFootball {
 
 }

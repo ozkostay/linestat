@@ -77,8 +77,7 @@ export class AppService {
     
     const findPlayer: any = { name_ru: arrBody[0], sport: arrBody[1]};
         const player = this.findPlayers(findPlayer);
-    return { aaa: 111};
-    
+        
     return player;
   }
 }
