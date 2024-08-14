@@ -13,9 +13,9 @@ import { Tennis } from '../entities/tennis.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'tennis',
-      entities: [Tennis],
+      entities: [],
       synchronize: true,
-      logging: true,
+      logging: false,
     }),
   ],
 })

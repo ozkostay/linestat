@@ -10,7 +10,7 @@ import { TransformDate } from './transformDate';
 import { ResultService } from './results.service';
 
 @Module({
-  imports: [DbModule, TypeOrmModule.forFeature([Tennis]), HttpModule],
+  imports: [TypeOrmModule.forFeature([Tennis]), HttpModule],
   controllers: [TennisController],
   providers: [TennisService, LinesService, TransformDate, ResultService],
 })

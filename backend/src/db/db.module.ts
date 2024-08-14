@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { Football } from '../entities/football.entity';
-
+import { Football } from 'src/football/entities/football.entity';
+import { Tennis } from 'src/tennis/entities/tennis.entity';
 
 @Module({
   imports: [
@@ -13,12 +13,11 @@ import { Football } from '../entities/football.entity';
       port: Number(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
-      database: 'football',
-      entities: [Football],
+      database: 'lines',
+      entities: [Football, Tennis],
       synchronize: true,
+      logging: true,
     }),
   ],
 })
-export class DbModuleFootball {
-
-}
+export class DbModuleLines {}
