@@ -66,6 +66,7 @@ export class ResultsService {
       const game = await this.gamesRepository.findOneBy({ id });
       // Обновляем свойства
       game.result = result;
+      console.log('=== DATE', date);
       game.date = new Date(date);
       // Сохраняем изменения
       const modyGame = await this.gamesRepository.save(game);

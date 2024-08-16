@@ -40,6 +40,6 @@ export class ResultService {
     const dataFromGames = await sendResultInGames();
     console.log('RESULTS dataFromGames)= ', dataFromGames);
 
-    return 'Tennis  SERVICE addResultsToGames Ok';
+    return { status: 200, message: 'Tennis  SERVICE addResultsToGames Ok' };
   }
 }
