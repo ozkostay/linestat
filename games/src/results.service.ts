@@ -62,19 +62,21 @@ export class ResultsService {
 
   async updateGames(inObj: { id: number; result: string; date: Date }) {
     const { id, result, date } = inObj;
-    try {
-      const game = await this.gamesRepository.findOneBy({ id });
-      // Обновляем свойства
-      game.result = result;
-      console.log('=== DATE', date);
-      game.date = new Date(date);
-      // Сохраняем изменения
-      const modyGame = await this.gamesRepository.save(game);
-      return modyGame;
-    } catch (error) {
-      console.error(error);
-      return;
-    }
+    // try {
+    //   const game = await this.gamesRepository.findOneBy({ id });
+    //   // Обновляем свойства
+    //   game.result = result;
+    //   console.log('=== date', date);
+    //   const newDate = new Date(date.toISOString().slice(0, 19).replace('T', ' '));
+    //   console.log('=== newDate', newDate);
+    //   game.date = newDate;
+    //   // Сохраняем изменения
+    //   const modyGame = await this.gamesRepository.save(game);
+    //   return modyGame;
+    // } catch (error) {
+    //   console.error(error);
+    //   return;
+    // }
   }
 
   async addResults(arrResults: any[]): Promise<any> {
