@@ -43,7 +43,7 @@ export class TennisController {
   @UsePipes(ResultPipe)
   @Post('results') // Receiving Data from result
   async receivFromResults(@Body() bodyFromPipe: FromResulttPipe[]): Promise<any> {
-    console.log('controller receivFromResults', bodyFromPipe);
+    // console.log('controller receivFromResults', bodyFromPipe[1]);
     // console.log('controller receivFromResults OK');
     return await this.resultService.addResultsToGames(bodyFromPipe);
   }

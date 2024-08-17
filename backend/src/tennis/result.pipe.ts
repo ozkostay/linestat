@@ -4,9 +4,7 @@ import { TransformDate } from './transformDate';
 
 @Injectable()
 export class ResultPipe implements PipeTransform {
-  constructor(
-    private readonly transformDate: TransformDate,
-  ) {}
+  constructor(private readonly transformDate: TransformDate) {}
 
   public transform(body: InPupetResult[], metadata: ArgumentMetadata) {
     const arrTemp = [];
@@ -15,15 +13,20 @@ export class ResultPipe implements PipeTransform {
         return;
       }
       const players = this.transformPlayers(i.players);
+      const newDate = this.transformDate.transformDate(i.dataResult);
+      
+      if (!newDate) return;
+      
+      // console.log('PIPE', newDate);
       const newModyfiResult = {
         player1: players.player1,
         player2: players.player2,
         result: i.result,
-        date: this.transformDate.transformDate(i.dataResult),
+        date: newDate,
       };
       arrTemp.push(newModyfiResult);
     });
-    
+
     return arrTemp;
   }
 
@@ -36,4 +39,3 @@ export class ResultPipe implements PipeTransform {
     return { player1: arrPlayers[0], player2: arrPlayers[1] };
   }
 }
-

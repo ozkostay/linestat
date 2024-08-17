@@ -19,8 +19,10 @@ export class ResultService {
     console.log(
       'Tennis SERVICE addResultsToGames() LENGTH ',
       body.length,
-      body[1],
+      body,
     );
+
+    // return { status: 200, message: 'Tennis  SERVICE addResultsToGames Ok' };
 
     const sendResultInGames = async () => {
       const resultsSport$ = this.httpService.post(

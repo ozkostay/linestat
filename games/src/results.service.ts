@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { QueryResult, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Games } from './entities/games.entity';
 import { gamesDto } from './dto/game.dto';
@@ -81,25 +81,32 @@ export class ResultsService {
 
   async addResults(arrResults: any[]): Promise<any> {
     // Получаем Map('Player1-Player2', idGame)
+    
     const allEmptyResults = await this.getallEmptyResults();
     const mapNamesId = await this.modyEmptyResults(allEmptyResults);
-
+    console.log('555rs', arrResults);
+    
+  
+    
+    console.log('game serv addRes', arrResults);
     // Записываем результат
     for await (const result of arrResults) {
-      const mergeNames: string = `${result.player1}-${result.player2}`;
-      const idGame = mapNamesId.get(mergeNames);
-      console.log('!!!', mergeNames, '---', idGame);
-      if (idGame) {
-        const outObj = {
-          id: idGame,
-          result: result.result,
-          date: result.date,
-        };
-        const res = await this.updateGames(outObj);
-      }
+      console.log('DAME !!!', result.result, '---', 'DATA' ,result.data);
+      // const mergeNames: string = `${result.player1}-${result.player2}`;
+      // const idGame = mapNamesId.get(mergeNames);
+
+      // console.log('DAME !!!', mergeNames, '---', idGame,'DATA' ,result.data);
+      // if (idGame) {
+      //   const outObj = {
+      //     id: idGame,
+      //     result: result.result,
+      //     date: result.date,
+      //   };
+      //   const res = await this.updateGames(outObj);
+      // }
     }
 
-    console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);
+    // console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);
 
     return { status: 200, message: 'get Results in servise GAME!!!' };
   }
