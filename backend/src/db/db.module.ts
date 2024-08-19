@@ -16,7 +16,7 @@ import { Tennis } from 'src/tennis/entities/tennis.entity';
       database: 'lines',
       entities: [Football, Tennis],
       synchronize: true,
-      logging: true,
+      logging: false,
     }),
   ],
 })
