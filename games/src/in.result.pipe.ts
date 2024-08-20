@@ -10,6 +10,7 @@ export class InResultPipe implements PipeTransform {
     const { body } = inBody;
     const arrRetrun = [];
     body.forEach((i: any) => {
+      if (!i.result) return;
       arrRetrun.push({
         player1: i.player1,
         player2: i.player2,

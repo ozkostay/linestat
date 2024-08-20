@@ -54,7 +54,7 @@ export class ResultsService {
     }
 
     for (const [key, value] of mapGames) {
-      console.log('555', key, value);
+      console.log('555-MAP() ', key, value);
     }
 
     return mapGames;
@@ -62,21 +62,23 @@ export class ResultsService {
 
   async updateGames(inObj: { id: number; result: string; date: Date }) {
     const { id, result, date } = inObj;
-    // try {
-    //   const game = await this.gamesRepository.findOneBy({ id });
-    //   // Обновляем свойства
-    //   game.result = result;
-    //   console.log('=== date', date);
-    //   const newDate = new Date(date.toISOString().slice(0, 19).replace('T', ' '));
-    //   console.log('=== newDate', newDate);
-    //   game.date = newDate;
-    //   // Сохраняем изменения
-    //   const modyGame = await this.gamesRepository.save(game);
-    //   return modyGame;
-    // } catch (error) {
-    //   console.error(error);
-    //   return;
-    // }
+    try {
+      const game = await this.gamesRepository.findOneBy({ id });
+      // Обновляем свойства
+      game.result = result;
+      
+      console.log('=== date', date);
+      // const newDate = new Date(date.toISOString().slice(0, 19).replace('T', ' '));
+      const newDate = new Date(date);
+      console.log('=== newDate', newDate);
+      game.date = newDate;
+      // Сохраняем изменения
+      const modyGame = await this.gamesRepository.save(game);
+      return modyGame;
+    } catch (error) {
+      console.error(error);
+      return;
+    }
   }
 
   async addResults(arrResults: any[]): Promise<any> {
@@ -84,26 +86,26 @@ export class ResultsService {
     
     const allEmptyResults = await this.getallEmptyResults();
     const mapNamesId = await this.modyEmptyResults(allEmptyResults);
-    console.log('555rs', arrResults);
+    // console.log('555rs', arrResults);
     
   
     
-    console.log('game serv addRes', arrResults);
+    // console.log('game serv addRes', arrResults);
     // Записываем результат
     for await (const result of arrResults) {
-      console.log('DAME !!!', result.result, '---', 'DATA' ,result.data);
-      // const mergeNames: string = `${result.player1}-${result.player2}`;
-      // const idGame = mapNamesId.get(mergeNames);
+      console.log('DATE !!!', result.result , '---', '  date=' ,result.date);
+      const mergeNames: string = `${result.player1}-${result.player2}`;
+      const idGame = mapNamesId.get(mergeNames);
 
       // console.log('DAME !!!', mergeNames, '---', idGame,'DATA' ,result.data);
-      // if (idGame) {
-      //   const outObj = {
-      //     id: idGame,
-      //     result: result.result,
-      //     date: result.date,
-      //   };
-      //   const res = await this.updateGames(outObj);
-      // }
+      if (idGame) {
+        const outObj = {
+          id: idGame,
+          result: result.result,
+          date: result.date,
+        };
+        const res = await this.updateGames(outObj);
+      }
     }
 
     // console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);

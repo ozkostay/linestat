@@ -23,7 +23,8 @@ export class AppController {
   @UsePipes(InResultPipe)
   @Post('results')
   async addResults(@Body() arrResults: any[]): Promise<any> {
-    // console.log('GAME CONTROLLER RESULTs BODY', body);
+    // console.log('GAME CONTROLLER RESULTs BODY', arrResults);
+    
     const game = await this.resultsService.addResults(arrResults);
     // const game = {aaa:111}
     return game;

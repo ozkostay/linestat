@@ -14,10 +14,10 @@ export class LinesService {
   ) {}
 
   objectComparison(obj1: CreateDto, obj2: CreateDto) {
-    console.log('DDDDDDD', typeof obj1.win1_odds);
-    console.log('DDDDDDDD', typeof obj2.win1_odds);
+    // console.log('DDDDDDD', typeof obj1.win1_odds);
+    // console.log('DDDDDDDD', typeof obj2.win1_odds);
     // console.log('DDDDDDDDDD', 'games 1', obj1.gameId, '2', obj2.gameId);
-    console.log('DDDDDDDDDD', '1', obj1.win1_odds, '2', obj2.win1_odds);
+    // console.log('DDDDDDDDDD', '1', obj1.win1_odds, '2', obj2.win1_odds);
     if (
       // obj1.gameId === obj2.gameId &&
       obj1.game_id === obj2.game_id &&
@@ -31,10 +31,10 @@ export class LinesService {
       obj1.total_under_odds === obj2.total_under_odds &&
       obj1.total_over_odds === obj2.total_over_odds
     ) {
-      console.log('объекты РАВНЫ!!!');
+      console.log('объекты РАВНЫ!!!', obj1.game_id);
       return true;
     } else {
-      console.log('объекты НЕ РАВНЫ!!!');
+      console.log('объекты НЕ РАВНЫ!!!', obj1.game_id);
       return false;
     }
   }
@@ -45,7 +45,7 @@ export class LinesService {
   }
 
   async findLines(objLine: LinesDto): Promise<any> {
-    console.log('findLines', objLine.game_id);
+    // console.log('findLines', objLine.game_id);
     const objToFind: FindLinesDto = {
       // gameId: objLine.gameId,
       game_id: objLine.game_id,
@@ -58,7 +58,6 @@ export class LinesService {
     
     const objToCreate: CreateDto = {
       timestamp: new Date(),
-      // gameId: objLine.gameId,
       game_id: objLine.game_id,
       win1_odds: objLine.win1_odds,
       win2_odds: objLine.win2_odds,
@@ -82,13 +81,13 @@ export class LinesService {
     console.log('Tennis Lines arrLines', objLinesIncomming.arrLines[1]);
     const { arrLines } = objLinesIncomming;
     for await (const i of arrLines) {
-      console.log('=== i.gameId', i.gameId);
+      // console.log('=== i.gameId', i.gameId);
       const temp = Object.assign(i);
       temp.game_id = i.gameId;
       delete temp.gameId;
       const res = await this.findLines(i);
     }
-    console.log('Все линии обработаны!', Date());
+    console.log('Все линии ТЕННИСа обработаны!', Date());
     return 'Tennis Lines Ok';
   }
 
