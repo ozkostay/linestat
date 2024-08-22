@@ -40,7 +40,7 @@ export class FootballService {
     return nameTurnament;
   }
 
-  async getPlayers(namePlayers: any) {
+  async getPlayers(namePlayers: any, sport: string) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
     // console.log('namePlayer', namePlayers);
     let myobservable$: Observable<AxiosResponse<any, any>>;
@@ -49,6 +49,7 @@ export class FootballService {
         `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}`,
         {
           name: key,
+          sport: sport,
         },
       );
       const response: AxiosResponse<any, any> =
@@ -75,10 +76,10 @@ export class FootballService {
     // Делаем уникальныx Игроков
     const mapPlayersName: any = new Map();
     arrLines.forEach((i) => {
-      mapPlayersName.set(`${i.name1}&&&${sport}`, null);
-      mapPlayersName.set(`${i.name2}&&&${sport}`, null);
+      mapPlayersName.set(`${i.name1}`, null);
+      mapPlayersName.set(`${i.name2}`, null);
     });
-    const mapPlayers = await this.getPlayers(mapPlayersName); // Получаем Map() mapPlayers с ID из сервиса Players
+    const mapPlayers = await this.getPlayers(mapPlayersName, sport); // Получаем Map() mapPlayers с ID из сервиса Players
     
 
     
@@ -92,8 +93,8 @@ export class FootballService {
         `${i.turnament}&&&nosurface&&&${sport}`,
       ).surface; //Заполняем id покрытия
       console.log('999-2',i.name1);
-      i.name1Id = mapPlayers.get(`${i.name1}&&&${sport}`).id; //Заполняем id Игрока1
-      i.name2Id = mapPlayers.get(`${i.name2}&&&${sport}`).id; //Заполняем id Игрока2
+      i.name1Id = mapPlayers.get(`${i.name1}`).id; //Заполняем id Игрока1
+      i.name2Id = mapPlayers.get(`${i.name2}`).id; //Заполняем id Игрока2
     });
 
     console.log('888', arrLines[2]);

@@ -15,11 +15,12 @@ export class ResultsService {
     private readonly httpService: HttpService,
   ) {}
 
-  async getallEmptyResults() {
+  async getallEmptyResults(sport) {
     try {
       const response = await this.gamesRepository.find({
         where: {
           date: null,
+          sport: sport,
         },
       });
       return response;
@@ -29,9 +30,14 @@ export class ResultsService {
     }
   }
 
-  async queryToPlayers(id: string) {
+  async queryToPlayers(id: string, sport: number) {
+    let url: string;
+    if (sport === 1) {
+      url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/shortname/${id}`;
+    } else {
+      url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/longname/${id}`;
+    }
     
-    const url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/${id}`;
     console.log('url: ', url)
 
     const arrFromGames$: Observable<AxiosResponse<any, any>> =
@@ -41,14 +47,14 @@ export class ResultsService {
     return await response.data;
   }
 
-  async modyEmptyResults(inArr: gamesDto[]): Promise<any> {
+  async modyEmptyResults(inArr: gamesDto[], sport: number): Promise<any> {
     // const outArr = [];
     const mapGames = new Map();
     for await (const game of inArr) {
       // Получаем shortName первого и второго игрока
-      const shotName1 = await this.queryToPlayers(String(game.player1));
-      const shotName2 = await this.queryToPlayers(String(game.player2));
-      const mergeNames: string = `${shotName1.shortName}-${shotName2.shortName}`;
+      const longName1 = await this.queryToPlayers(String(game.player1), sport);
+      const longName2 = await this.queryToPlayers(String(game.player2), sport);
+      const mergeNames: string = `${longName1.shortName}-${longName2.shortName}`;
       mapGames.set(mergeNames, game.id);
       console.log('ID', game.id, ' name ', mergeNames);
     }
@@ -84,8 +90,10 @@ export class ResultsService {
   async addResults(arrResults: any[]): Promise<any> {
     // Получаем Map('Player1-Player2', idGame)
     
-    const allEmptyResults = await this.getallEmptyResults();
-    const mapNamesId = await this.modyEmptyResults(allEmptyResults);
+    const sport = arrResults[0].sport;
+    const allEmptyResults = await this.getallEmptyResults(sport);
+    
+    const mapNamesId = await this.modyEmptyResults(allEmptyResults, sport);
     // console.log('555rs', arrResults);
     
   

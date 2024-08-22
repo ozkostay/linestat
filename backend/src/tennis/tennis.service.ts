@@ -38,8 +38,8 @@ export class TennisService {
     return nameTurnament;
   }
 
-  async getPlayers(namePlayers: any) {
-    // Берем из микросервиса Турниров объект турнира и присваиваем в value
+  async getPlayers(namePlayers: any, sport: string) {
+    // Берем из микросервиса Players объект игрока и присваиваем в value
     console.log('namePlayer', namePlayers);
     let myobservable$: Observable<AxiosResponse<any, any>>;
     for (let key of namePlayers.keys()) {
@@ -47,6 +47,7 @@ export class TennisService {
         `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}`,
         {
           name: key,
+          sport: sport,
         },
       );
       const response: AxiosResponse<any, any> =
@@ -72,13 +73,13 @@ export class TennisService {
     });
 
     const mapTurns = await this.getTurnament(mapTurnamentName); // Получаем Map() mapTurns с ID
-    const mapPlayers = await this.getPlayers(mapPlayersName); // Получаем Map() mapPlayers с ID
+    const mapPlayers = await this.getPlayers(mapPlayersName, sport); // Получаем Map() mapPlayers с ID
 
     arrLines.forEach((i) => {
       i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&${sport}`).id; //Заполняем id турнира
       i.sportId = mapTurns.get(
         `${i.turnament}&&&${i.surface}&&&${sport}`,
-      ).sport; //Заполняем id турнира
+      ).sport; //Заполняем id спорта
       i.surfaceId = mapTurns.get(
         `${i.turnament}&&&${i.surface}&&&${sport}`,
       ).surface; //Заполняем id покрытия

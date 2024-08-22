@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { HttpModule } from '@nestjs/axios';
 import { Football } from './entities/football.entity';
 import { LinesService } from './lines.service';
+import { TransformDate } from './transformDate';
+import { ResultService } from './results.service';
 
 @Module({
   
   imports: [TypeOrmModule.forFeature([Football]), HttpModule],
   controllers: [FootballController],
-  providers: [FootballService, LinesService],
+  providers: [FootballService, LinesService, TransformDate, ResultService],
 })
 export class FootballModule {}

@@ -11,12 +11,17 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get(':id')
-  // // findOne(@Param('id') id: string) {
-  // //   return this.tennisService.findOne(+id);
-  // // }
+  @Get('longname/:id')
+  async getNameById(@Param('id') id: string): Promise<any> {
+    console.log('Player longName id=', id);
+    // return { player: 'longName'}
+    const longName = await this.appService.getLongNameById(Number(id));
+    console.log('ID', id, 'name ', longName  );
+    return longName;
+    // return { status: 200 }
+  }
 
-  @Get()
+  @Get('shortname/:id')
   async getShortNameById(@Param('id') id: string): Promise<any> {
     const shortName = await this.appService.getShortNameById(Number(id));
     console.log('ID', id, 'name ', shortName  );

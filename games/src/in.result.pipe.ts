@@ -12,6 +12,7 @@ export class InResultPipe implements PipeTransform {
     body.forEach((i: any) => {
       if (!i.result) return;
       arrRetrun.push({
+        sport: i.sport,
         player1: i.player1,
         player2: i.player2,
         result: i.result,

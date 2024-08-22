@@ -18,6 +18,18 @@ export class AppService {
     return 'Hello World! PLAYERS';
   }
 
+
+  async getLongNameById(id: number): Promise<any> {
+    try {
+      const response = await this.playresRepository.findOneBy({id});
+      // const arrfullName = response.name_ru.split(', ');
+      // const shortName = `${arrfullName[1].slice(0,1)}.${arrfullName[0]}`;
+      return { longName: response.name_ru};
+    } catch (error) {
+      return { status: 400, message: `ID ${id} не найден`};
+    }
+  }
+
   async getShortNameById(id: number): Promise<any> {
     try {
       const response = await this.playresRepository.findOneBy({id});
@@ -73,9 +85,11 @@ export class AppService {
 
   async getPlayers(body: BodyPlayers): Promise<any> {
     console.log('SERVICE', body);
-    const arrBody = body.name.split('&&&');
+    // const arrBody = body.name.split('&&&');
+    const name_ru = body.name;
+    const sport = body.sport;
     
-    const findPlayer: any = { name_ru: arrBody[0], sport: arrBody[1]};
+    const findPlayer: any = { name_ru: name_ru, sport: sport};
         const player = this.findPlayers(findPlayer);
         
     return player;

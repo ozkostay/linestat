@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
 import { FootballService } from './football.service';
+import { ResultPipe } from './result.pipe';
+import { FromResulttPipe } from './dto/fromResultPipe.dto';
+import { LinesService } from './lines.service';
+import { ResultService } from './results.service';
 
 @Controller('football')
 export class FootballController {
-  constructor(private readonly footballService: FootballService,) {}
+  constructor(
+    private readonly footballService: FootballService,
+    // private readonly linesService: LinesService,
+    private readonly resultService: ResultService,
+  ) {}
 
   @Post('pars')
   async receivFromPars(@Body() body: any) {
@@ -11,6 +19,16 @@ export class FootballController {
     const fromSevice = await this.footballService.receivFromPars(body);
     console.log('football controller fromService', fromSevice);
     return { message: 'Controller football KO!' };
+  }
+
+  @UsePipes(ResultPipe)
+  @Post('results') // Receiving Data from result
+  async receivFromResults(@Body() bodyFromPipe: FromResulttPipe[]): Promise<any> {
+    console.log('controller receivFromResults football ', bodyFromPipe[1]);
+    // console.log('controller receivFromResults OK');
+    // return { aaa: 'football controller OK!!!'}
+
+    return await this.resultService.addResultsToGames(bodyFromPipe);
   }
 
   @Get()
