@@ -16,7 +16,7 @@ export class ResultService {
 
   async addResultsToGames(body: FromResulttPipe[]): Promise<any> {
     console.log(
-      'Tennis SERVICE addResultsToGames() LENGTH ',
+      'FOOTBALL SERVICE addResultsToGames() LENGTH ',
       body.length,
       body,
     );
@@ -41,6 +41,6 @@ export class ResultService {
     const dataFromGames = await sendResultInGames();
     console.log('RESULTS dataFromGames)= ', dataFromGames);
 
-    return { status: 200, message: 'Tennis  SERVICE addResultsToGames Ok' };
+    return { status: 200, message: 'FOOTBALL SERVICE addResultsToGames Ok' };
   }
 }

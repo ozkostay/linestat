@@ -13,10 +13,10 @@ export class InResultPipe implements PipeTransform {
       if (!i.result) return;
       arrRetrun.push({
         sport: i.sport,
+        turnament: i.turnament,
         player1: i.player1,
         player2: i.player2,
         result: i.result,
-        // date: new Date(i.date),
         date: i.date,
       });
     });

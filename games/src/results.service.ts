@@ -38,7 +38,7 @@ export class ResultsService {
       url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/longname/${id}`;
     }
     
-    console.log('url: ', url)
+    //onsole.log('url: ', url)
 
     const arrFromGames$: Observable<AxiosResponse<any, any>> =
       this.httpService.get(url);
@@ -54,13 +54,14 @@ export class ResultsService {
       // Получаем shortName первого и второго игрока
       const longName1 = await this.queryToPlayers(String(game.player1), sport);
       const longName2 = await this.queryToPlayers(String(game.player2), sport);
-      const mergeNames: string = `${longName1.shortName}-${longName2.shortName}`;
+      //console.log('longName1', longName1);
+      const mergeNames: string = `${longName1.longName}-${longName2.longName}`;
       mapGames.set(mergeNames, game.id);
-      console.log('ID', game.id, ' name ', mergeNames);
+      //console.log('ID', game.id, ' name ', mergeNames);
     }
 
     for (const [key, value] of mapGames) {
-      console.log('555-MAP() ', key, value);
+      //console.log('555-MAP() ', key, value);
     }
 
     return mapGames;
@@ -92,23 +93,27 @@ export class ResultsService {
     
     const sport = arrResults[0].sport;
     const allEmptyResults = await this.getallEmptyResults(sport);
+    console.log('allEmptyResults', allEmptyResults[0]);
     
     const mapNamesId = await this.modyEmptyResults(allEmptyResults, sport);
-    // console.log('555rs', arrResults);
+    // for (const [key, value] of mapNamesId.entries()) {
+    //   console.log('===MAP===', key, value);
+    // }
+    // console.log('555rs', arrGamesarrGames);
     
   
     
     // console.log('game serv addRes', arrResults);
     // Записываем результат
     for await (const result of arrResults) {
-      console.log('DATE !!!', result.result , '---', '  date=' ,result.date);
+      //console.log('DATE !!!', result.result , '---', `${result.player1}-${result.player2}`);
       const mergeNames: string = `${result.player1}-${result.player2}`;
-      const idGame = mapNamesId.get(mergeNames);
+      const game_id = mapNamesId.get(mergeNames);
 
       // console.log('DAME !!!', mergeNames, '---', idGame,'DATA' ,result.data);
-      if (idGame) {
+      if (game_id) {
         const outObj = {
-          id: idGame,
+          id: game_id,
           result: result.result,
           date: result.date,
         };
