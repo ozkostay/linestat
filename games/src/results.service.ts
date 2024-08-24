@@ -37,7 +37,7 @@ export class ResultsService {
     } else {
       url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/longname/${id}`;
     }
-    
+
     //onsole.log('url: ', url)
 
     const arrFromGames$: Observable<AxiosResponse<any, any>> =
@@ -52,12 +52,17 @@ export class ResultsService {
     const mapGames = new Map();
     for await (const game of inArr) {
       // Получаем shortName первого и второго игрока
-      const longName1 = await this.queryToPlayers(String(game.player1), sport);
-      const longName2 = await this.queryToPlayers(String(game.player2), sport);
-      //console.log('longName1', longName1);
-      const mergeNames: string = `${longName1.longName}-${longName2.longName}`;
+      const playerName1 = await this.queryToPlayers(String(game.player1), sport);
+      const playerName2 = await this.queryToPlayers(String(game.player2), sport);
+      let mergeNames:string;
+      if (sport === 1) {
+        mergeNames = `${playerName1.shortName}-${playerName2.shortName}`;
+      } else {
+        mergeNames = `${playerName1.longName}-${playerName2.longName}`;
+      }
+
       mapGames.set(mergeNames, game.id);
-      //console.log('ID', game.id, ' name ', mergeNames);
+      console.log('ID', game.id, ' names ', mergeNames);
     }
 
     for (const [key, value] of mapGames) {
@@ -73,14 +78,14 @@ export class ResultsService {
       const game = await this.gamesRepository.findOneBy({ id });
       // Обновляем свойства
       game.result = result;
-      
+
       console.log('=== date', date);
-      // const newDate = new Date(date.toISOString().slice(0, 19).replace('T', ' '));
       const newDate = new Date(date);
       console.log('=== newDate', newDate);
       game.date = newDate;
       // Сохраняем изменения
       const modyGame = await this.gamesRepository.save(game);
+      console.log('Обновили Game ', game);
       return modyGame;
     } catch (error) {
       console.error(error);
@@ -90,19 +95,17 @@ export class ResultsService {
 
   async addResults(arrResults: any[]): Promise<any> {
     // Получаем Map('Player1-Player2', idGame)
-    
+
     const sport = arrResults[0].sport;
     const allEmptyResults = await this.getallEmptyResults(sport);
     console.log('allEmptyResults', allEmptyResults[0]);
-    
+
     const mapNamesId = await this.modyEmptyResults(allEmptyResults, sport);
     // for (const [key, value] of mapNamesId.entries()) {
     //   console.log('===MAP===', key, value);
     // }
     // console.log('555rs', arrGamesarrGames);
-    
-  
-    
+
     // console.log('game serv addRes', arrResults);
     // Записываем результат
     for await (const result of arrResults) {
@@ -121,6 +124,7 @@ export class ResultsService {
       }
     }
 
+    console.log('Обработка результатов закончена.!!!');
     // console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);
 
     return { status: 200, message: 'get Results in servise GAME!!!' };
