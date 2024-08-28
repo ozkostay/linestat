@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Football } from 'src/football/entities/football.entity';
 import { Tennis } from 'src/tennis/entities/tennis.entity';
+import { Hockey } from 'src/hockey/entities/hockey.entity';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { Tennis } from 'src/tennis/entities/tennis.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'lines',
-      entities: [Football, Tennis],
+      entities: [Football, Tennis, Hockey],
       synchronize: true,
       logging: false,
     }),
