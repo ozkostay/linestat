@@ -20,7 +20,7 @@ export class AppService {
   }
 
   async createGames(body: gamesDto): Promise<gamesDto> {
-    console.log('createGames', body.turnament);
+    console.log('createGames', body.player1, '-', body.player2);
     body.timestamp = new Date();
     // body.result = '';
     const newGame = this.gamesRepository.create(body);
@@ -28,7 +28,7 @@ export class AppService {
   }
 
   async findGames(body: arrLinesDto): Promise<gamesDto> {
-    console.log('findGames', body.turnId);
+    console.log('findGames', body.name1Id, '-',body.name2Id);
     const objToFind: gamesDto = {
       sport: body.sportId,
       turnament: body.turnId,
