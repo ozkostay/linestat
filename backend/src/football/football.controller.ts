@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes } from '@ne
 import { FootballService } from './football.service';
 import { ResultPipe } from './result.pipe';
 import { FromResulttPipe } from './dto/fromResultPipe.dto';
-import { LinesService } from './lines.service';
 import { ResultService } from './results.service';
 
 @Controller('football')

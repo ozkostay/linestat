@@ -1,23 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Football } from './entities/football.entity';
+import { HttpService } from '@nestjs/axios';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Basketball } from 'src/entities/tennis.entity';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { HttpService } from '@nestjs/axios';
-import { LinesService } from './lines.service';
 
 @Injectable()
-export class FootballService {
+export class BasketballService {
   constructor(
-    @InjectRepository(Football)
-    private footballRepository: Repository<Football>,
+    @InjectRepository(Basketball)
+    private basketballRepository: Repository<Basketball>,
     private readonly httpService: HttpService,
-    private readonly linesService: LinesService,
+    // private readonly linesService: LinesService,
   ) {}
 
   findAll() {
-    return `This action returns all football`;
+    return `This action returns all basketball`;
   }
 
   async getTurnament(nameTurnament: any) {
@@ -62,7 +61,7 @@ export class FootballService {
   }
 
   async receivFromPars(arrLines: any[]) {
-    const sport = 'football';
+    const sport = 'basketball';
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map();
     arrLines.forEach((i) => {
@@ -118,7 +117,8 @@ export class FootballService {
 
     // objResponse = { arrLines: dataFromGames}; НЕ НАДО
 
-    const resLines = this.linesService.addLines(dataFromGames);
+    // Потом открыть
+    // const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
 }

@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { Football } from 'src/football/entities/football.entity';
 import { Tennis } from 'src/tennis/entities/tennis.entity';
 import { Hockey } from 'src/hockey/entities/hockey.entity';
+import { Basketball } from 'src/entities/tennis.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Hockey } from 'src/hockey/entities/hockey.entity';
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: 'lines',
-      entities: [Football, Tennis, Hockey],
+      entities: [Football, Tennis, Hockey, Basketball],
       synchronize: true,
       logging: false,
     }),
