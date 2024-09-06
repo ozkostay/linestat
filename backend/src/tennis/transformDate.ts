@@ -24,7 +24,7 @@ export class TransformDate {
 
     const arrDate = strData.split(" ");
     const dayTemp = arrDate[2] ? arrDate[0] : new Date().getDate();
-    console.log('234 ',arrDate[1],' 555 mody ', arrDate[1].slice(0,3));
+    // console.log('234 ',arrDate[1],' 555 mody ', arrDate[1].slice(0,3));
     const monthTemp = arrDate[2]
       ? months.get(arrDate[1].slice(0,3))
       : new Date().getMonth();
