@@ -1,4 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UsePipes,
+} from '@nestjs/common';
 import { FootballService } from './football.service';
 import { ResultPipe } from './result.pipe';
 import { FromResulttPipe } from './dto/fromResultPipe.dto';
@@ -22,7 +28,9 @@ export class FootballController {
 
   @UsePipes(ResultPipe)
   @Post('results') // Receiving Data from result
-  async receivFromResults(@Body() bodyFromPipe: FromResulttPipe[]): Promise<any> {
+  async receivFromResults(
+    @Body() bodyFromPipe: FromResulttPipe[],
+  ): Promise<any> {
     console.log('controller receivFromResults football ', bodyFromPipe[1]);
     // console.log('controller receivFromResults OK');
     // return { aaa: 'football controller OK!!!'}
