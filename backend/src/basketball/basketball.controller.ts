@@ -26,8 +26,8 @@ export class BasketballController {
   ): Promise<any> {
     console.log('controller receivFromResults HOCKEY ', bodyFromPipe[1]);
     // console.log('controller receivFromResults OK');
-    return { aaa: 'HOCKEY controller OK!!!'}
+    // return { aaa: 'BASKETBALL RESULTS controller OK!!!'}
 
-    ///return await this.resultService.addResultsToGames(bodyFromPipe);
+    return await this.resultService.addResultsToGames(bodyFromPipe);
   }
 }

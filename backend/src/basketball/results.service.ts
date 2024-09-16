@@ -16,7 +16,7 @@ export class ResultService {
   // === Для отладки
   async addResultsToGames(body: FromResulttPipe[]): Promise<any> {
     console.log(
-      'HOCKEY SERVICE addResultsToGames() LENGTH ',
+      'BASKETBALL SERVICE addResultsToGames() LENGTH ',
       body.length,
       body,
     );
@@ -39,8 +39,8 @@ export class ResultService {
     };
 
     const dataFromGames = await sendResultInGames();
-    console.log('RESULTS dataFromGames)= ', dataFromGames);
+    console.log('RESULTS BASKETBALL dataFromGames)= ', dataFromGames);
 
-    return { status: 200, message: 'HOCKEY SERVICE addResultsToGames Ok' };
+    return { status: 200, message: 'BASKETBALL SERVICE addResultsToGames Ok' };
   }
 }

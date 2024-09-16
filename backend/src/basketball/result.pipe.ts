@@ -19,7 +19,7 @@ export class ResultPipe implements PipeTransform {
       
       // console.log('PIPE', newDate);
       const newModyfiResult = {
-        sport: 3, // hockey
+        sport: 4, // баскетбол
         turnament: i.turnament,
         player1: players.player1,
         player2: players.player2,

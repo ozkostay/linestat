@@ -93,7 +93,7 @@ export class LinesService {
       delete temp.gameId;
       const res = await this.findLines(i);
     }
-    console.log('Все линии ХОККЕя обработаны!', Date());
+    console.log('Все линии БАСКЕТБОЛА обработаны!', Date());
     return 'Basketball Lines Ok';
   }
 
