@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Basketball } from 'src/entities/tennis.entity';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
+import { LinesService } from './lines.service';
 
 @Injectable()
 export class BasketballService {
@@ -12,6 +13,7 @@ export class BasketballService {
     @InjectRepository(Basketball)
     private basketballRepository: Repository<Basketball>,
     private readonly httpService: HttpService,
+    private readonly linesService: LinesService,
     // private readonly linesService: LinesService,
   ) {}
 
@@ -118,7 +120,7 @@ export class BasketballService {
     // objResponse = { arrLines: dataFromGames}; НЕ НАДО
 
     // Потом открыть
-    // const resLines = this.linesService.addLines(dataFromGames);
+    const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
 }
