@@ -1,0 +1,64 @@
+services:
+  turnaments:
+    image: node:20.17-alpine3.20
+    volumes:
+      - ./turnaments:/app
+    working_dir: /app
+    env_file:
+      - .env
+    ports:
+      - ${SERVICE_PORT_TURNAMENTS}:${SERVICE_PORT_TURNAMENTS}
+    networks:
+      linestat-network:
+        aliases:
+          - turnaments
+    command: npm run start:dev
+
+  players:
+    image: node:20.17-alpine3.20
+    volumes:
+      - ./players:/app
+    working_dir: /app
+    env_file:
+      - .env
+    ports:
+      - ${SERVICE_PORT_PLAYERS}:${SERVICE_PORT_PLAYERS}
+    networks:
+      linestat-network:
+        aliases:
+          - backeplayersnd
+    command: npm run start:dev
+
+  games:
+    image: node:20.17-alpine3.20
+    volumes:
+      - ./games:/app
+    working_dir: /app
+    env_file:
+      - .env
+    ports:
+      - ${SERVICE_PORT_GAMES}:${SERVICE_PORT_GAMES}
+    networks:
+      linestat-network:
+        aliases:
+          - games
+    command: npm run start:dev
+
+  backend:
+    image: node:20.17-alpine3.20
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    env_file:
+      - .env
+    ports:
+      - ${SERVICE_PORT_BACKEND}:${SERVICE_PORT_BACKEND}
+    networks:
+      linestat-network:
+        aliases:
+          - backend
+    command: npm run start:dev
+
+
+networks:
+  linestat-network:

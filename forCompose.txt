@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  web:
+    build: .
+    env_file:
+      - .env
+
+
+version: '3.7'
+services:
+  web:
+    build: .
+    environment:
+      - VERSION=${VERSION}
+      - DATABASE_URL=${DATABASE_URL}
+
+
+sudo systemctl restart assistant
+      

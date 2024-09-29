@@ -20,20 +20,26 @@ export class TennisService {
 
   async getTurnament(nameTurnament: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
-    console.log('nameTurnament', nameTurnament);
+    console.log('getTurnament ', 1, nameTurnament);
     let myobservable$: Observable<AxiosResponse<any, any>>;
+    console.log('getTurnament ', 2);
     for (let key of nameTurnament.keys()) {
+      console.log('getTurnament ', 21, `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}`);
       myobservable$ = this.httpService.post(
         `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}`,
         {
           name: key,
         },
       );
+      console.log('getTurnament ', 22);
       const response: AxiosResponse<any, any> =
         await lastValueFrom(myobservable$);
+      console.log('getTurnament ', 23);
       const data: object = await response.data;
+      console.log('getTurnament ', 24);
       nameTurnament.set(key, data);
     }
+    console.log('getTurnament ', 3);
 
     return nameTurnament;
   }
@@ -60,11 +66,13 @@ export class TennisService {
   }
 
   async receivFromPars(arrLines: LinesDto[]) {
+    console.log('SRVS', 1)
     const sport = 'tennis';
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map(
       arrLines.map((i) => [`${i.turnament}&&&${i.surface}&&&${sport}`, null]), // По &&& потом разделяем
     );
+    console.log('SRVS', 2)
     // Делаем уникальныx Игроков
     const mapPlayersName: any = new Map();
     arrLines.forEach((i) => {
@@ -72,9 +80,11 @@ export class TennisService {
       mapPlayersName.set(i.name2, null);
     });
 
+    console.log('SRVS', 3)
     const mapTurns = await this.getTurnament(mapTurnamentName); // Получаем Map() mapTurns с ID
     const mapPlayers = await this.getPlayers(mapPlayersName, sport); // Получаем Map() mapPlayers с ID
 
+    console.log('SRVS', 4)
     arrLines.forEach((i) => {
       i.turnId = mapTurns.get(`${i.turnament}&&&${i.surface}&&&${sport}`).id; //Заполняем id турнира
       i.sportId = mapTurns.get(
@@ -89,6 +99,7 @@ export class TennisService {
 
     // Работаем с сервисом GAMES
     // : Observable<AxiosResponse<any, any>>;
+    console.log('SRVS', 5)
     const makeGames = async () => {
       const arrFromGames$ = this.httpService.post(
         `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}`,
@@ -103,13 +114,16 @@ export class TennisService {
       return data;
     };
 
+    console.log('SRVS', 6)
     const dataFromGames = await makeGames();
 
+    console.log('SRVS', 7)
     // Получаем ID игроков
     console.log('!!!W dataFromGames)= ', Array.isArray(dataFromGames));
 
     //objResponse = { arrLines: dataFromGames};
 
+    console.log('SRVS', 8)
     const resLines = this.linesService.addLines(dataFromGames);
     return { status: 200 };
   }
