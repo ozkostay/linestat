@@ -6,8 +6,8 @@ services:
     working_dir: /app
     env_file:
       - .env
-    ports:
-      - ${SERVICE_PORT_TURNAMENTS}:${SERVICE_PORT_TURNAMENTS}
+    #ports:
+    #  - ${SERVICE_PORT_TURNAMENTS}:${SERVICE_PORT_TURNAMENTS}
     networks:
       linestat-network:
         aliases:
@@ -21,8 +21,8 @@ services:
     working_dir: /app
     env_file:
       - .env
-    ports:
-      - ${SERVICE_PORT_PLAYERS}:${SERVICE_PORT_PLAYERS}
+    #ports:
+    # - ${SERVICE_PORT_PLAYERS}:${SERVICE_PORT_PLAYERS}
     networks:
       linestat-network:
         aliases:
@@ -36,8 +36,8 @@ services:
     working_dir: /app
     env_file:
       - .env
-    ports:
-      - ${SERVICE_PORT_GAMES}:${SERVICE_PORT_GAMES}
+    #ports:
+    #  - ${SERVICE_PORT_GAMES}:${SERVICE_PORT_GAMES}
     networks:
       linestat-network:
         aliases:
