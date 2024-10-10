@@ -3,8 +3,8 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.SERVICE_PORT, () => {
-    console.log(`Service TURNAMENTS start on ${process.env.SERVICE_PORT} port`);
+  await app.listen(Number(process.env.SERVICE_PORT_TURNAMENTS), () => {
+    console.log(`Service TURNAMENTS start on ${process.env.SERVICE_PORT_TURNAMENTS} port`);
   });
 }
 bootstrap();

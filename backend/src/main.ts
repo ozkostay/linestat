@@ -11,8 +11,8 @@ async function bootstrap() {
   //   origin: 'http//localhost:3000'
   // });
 
-  await app.listen(process.env.SERVICE_PORT, () => {
-    console.log(`Service BACKEND start on ${process.env.SERVICE_PORT} port`);
+  await app.listen(Number(process.env.SERVICE_PORT_BACKEND), () => {
+    console.log(`Service BACKEND start on ${process.env.SERVICE_PORT_BACKEND} port`);
   });
 }
 bootstrap();
