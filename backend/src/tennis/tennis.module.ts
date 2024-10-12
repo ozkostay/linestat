@@ -8,10 +8,11 @@ import { LinesService } from './lines.service';
 import { Tennis } from './entities/tennis.entity';
 import { TransformDate } from './transformDate';
 import { ResultService } from './results.service';
+import { AppService } from 'src/app.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Tennis]), HttpModule],
   controllers: [TennisController],
-  providers: [TennisService, LinesService, TransformDate, ResultService],
+  providers: [TennisService, LinesService, TransformDate, ResultService, AppService],
 })
 export class TennisModule {}

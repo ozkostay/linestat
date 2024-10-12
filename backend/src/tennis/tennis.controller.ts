@@ -15,6 +15,7 @@ import { LinesService } from './lines.service';
 import { ResultPipe } from './result.pipe';
 import { FromResulttPipe } from './dto/fromResultPipe.dto';
 import { ResultService } from './results.service';
+import { AppService } from 'src/app.service';
 
 @Controller('tennis')
 export class TennisController {
@@ -22,6 +23,7 @@ export class TennisController {
     private readonly tennisService: TennisService,
     private readonly linesService: LinesService,
     private readonly resultService: ResultService,
+    private readonly appService: AppService,
   ) {}
 
   @Post()
@@ -31,6 +33,7 @@ export class TennisController {
   @Post('pars') // Receiving Data from parsing
   receivFromPars(@Body() bodyFromParsing: LinesDto[]): any {
     console.log('controller', bodyFromParsing[1]);
+    this.appService.logToFile('controller TENNIS pars');
     return this.tennisService.receivFromPars(bodyFromParsing);
   }
 
