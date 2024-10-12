@@ -1,0 +1,3 @@
+pg_dump -U linestatuser -d turnaments -F tar -f ./turnaments-backup-121024.tar
+pg_restore -U linestat -c -C -d turnaments -v turnaments-backup-121024.tar
+
