@@ -1,4 +1,5 @@
 export class arrLinesDto {
+  timestamp: any;
   sportId: number;
   turnId: number;
   name1Id: number;

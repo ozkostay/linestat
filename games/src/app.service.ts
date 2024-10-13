@@ -21,7 +21,7 @@ export class AppService {
 
   async createGames(body: gamesDto): Promise<gamesDto> {
     console.log('createGames', body.player1, '-', body.player2);
-    body.timestamp = new Date();
+    // body.timestamp = new Date();
     // body.result = '';
     const newGame = this.gamesRepository.create(body);
     return await this.gamesRepository.save(newGame);
@@ -40,6 +40,7 @@ export class AppService {
     if (response) {
       return response;
     } else {
+      objToFind.timestamp = new Date(body.timestamp);
       return await this.createGames(objToFind);
     }
   }
