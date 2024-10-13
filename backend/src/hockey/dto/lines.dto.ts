@@ -1,4 +1,5 @@
 export class LinesDto {
+  timestamp: string;
   turnament?: string;
   surface?: string;
   name1?: string;

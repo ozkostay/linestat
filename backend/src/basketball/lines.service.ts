@@ -63,7 +63,7 @@ export class LinesService {
     // console.log('findLines', 3);
     
     const objToCreate: CreateDto = {
-      timestamp: new Date(),
+      timestamp: new Date(objLine.timestamp),
       game_id: objLine.game_id,
       win1_odds: objLine.win1_odds,
       win2_odds: objLine.win2_odds,
