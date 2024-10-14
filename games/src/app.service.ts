@@ -7,6 +7,7 @@ import { arrLinesDto } from './dto/arrLines.dto';
 import { setPriority } from 'os';
 import { gamesDto } from './dto/game.dto';
 import { resolve } from 'path';
+import { error } from 'console';
 
 @Injectable()
 export class AppService {
@@ -28,7 +29,7 @@ export class AppService {
   }
 
   async findGames(body: arrLinesDto): Promise<gamesDto> {
-    console.log('findGames', body.name1Id, '-',body.name2Id);
+    console.log('findGames', body.name1Id, '-', body.name2Id);
     const objToFind: gamesDto = {
       sport: body.sportId,
       turnament: body.turnId,
@@ -72,8 +73,21 @@ export class AppService {
       return arrLinesReturn;
     };
 
-    const data =  await addGameId();
-    const objResponse = { arrLines: data}
+    const data = await addGameId();
+    const objResponse = { arrLines: data };
     return objResponse;
+  }
+
+  async getOneGame(gameId: number): Promise<any> {
+    const objToFind: { id: number } = {
+      id: Number(gameId),
+    };
+    const response = await this.gamesRepository.findOneBy(objToFind);
+    if (response) {
+      return response;
+    } else {
+      throw new Error('Нет такого ID в games');
+    }
+    // return `Game id=${gameId}`;
   }
 }

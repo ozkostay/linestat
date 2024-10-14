@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ResultsService } from './results.service';
 import { InFromSport } from './dto/inFromSport.dto';
@@ -28,5 +28,11 @@ export class AppController {
     const game = await this.resultsService.addResults(arrResults);
     // const game = {aaa:111}
     return game;
+  }
+
+  @Get('onegame/:id')
+  async getOneGame(@Param() id: { id: string }): Promise<any> {
+    const gameId: number = Number(id.id);
+    return this.appService.getOneGame(gameId);
   }
 }
