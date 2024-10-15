@@ -36,4 +36,12 @@ export class AppController {
     const player = await this.appService.getPlayers(body);
     return player;
   }
+
+  @Get('oneplayer/:id')
+  async getOnePlayer(@Param() id: { id: string }): Promise<any> {
+    const playerId = Number(id.id);
+    const onePlayer = await this.appService.getOnePlayer(playerId);
+    return onePlayer;
+
+  }
 }

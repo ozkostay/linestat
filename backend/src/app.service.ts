@@ -4,6 +4,8 @@ import { AxiosResponse } from 'axios';
 import * as fs from 'fs';
 import { lastValueFrom, Observable } from 'rxjs';
 import { OneGame } from './dto/oneGame';
+import { OneTurnament } from './dto/oneTurnament';
+import { OnePlayer } from './dto/onePlayer';
 
 @Injectable()
 export class AppService {
@@ -43,12 +45,26 @@ export class AppService {
     const player2Id = oneGame.player2;
 
     // Получаем Турнир по id
-    // url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/onegame/${gameId}`;
-    // console.log('game url=', url);
-    // myobservable$ = this.httpService.get(url);
-    // response = await lastValueFrom(myobservable$);
-    // const turnament: OneGame = await response.data;
+    url = `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}/oneturnament/${turnamentId}`;
+    console.log('turnament url=', url);
+    myobservable$ = this.httpService.get(url);
+    response = await lastValueFrom(myobservable$);
+    const oneTurnament: OneTurnament = await response.data;
 
-    return oneGame;
+    // Получаем Player1 по id
+    url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/oneplayer/${player1Id}`;
+    console.log('player1 url=', url);
+    myobservable$ = this.httpService.get(url);
+    response = await lastValueFrom(myobservable$);
+    const onePlayer1: OnePlayer = await response.data;
+
+    // Получаем Player2 по id
+    url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/oneplayer/${player2Id}`;
+    console.log('player2 url=', url);
+    myobservable$ = this.httpService.get(url);
+    response = await lastValueFrom(myobservable$);
+    const onePlayer2: OnePlayer = await response.data;
+
+    return [oneGame, oneTurnament, onePlayer1, onePlayer2];
   }
 }

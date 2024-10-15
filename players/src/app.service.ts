@@ -94,4 +94,16 @@ export class AppService {
         
     return player;
   }
+
+  async getOnePlayer(playerId): Promise<any> {
+    const objToFind: { id: number} = {
+      id: playerId,
+    }
+    const response = await this.playresRepository.findOneBy(objToFind);
+    if (response) {
+      return response;
+    } else {
+      return { status: 500, message: `Игрок с id=${playerId} не найден`};
+    }
+  }
 }

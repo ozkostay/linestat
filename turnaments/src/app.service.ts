@@ -90,4 +90,21 @@ export class AppService {
     const turnament = this.findTurnament(body);
     return turnament;
   }
+
+  async getOneTurnament(turnamentId: number): Promise<any> {
+    const response = await this.turnamentsRepository.findOneBy({
+      id: turnamentId,
+    });
+
+    if (response) {
+      console.log('ttt', 333);
+      return response;
+    } else {
+      // console.log('ttt', 3434, turnSurf);
+      return {
+        status: 500,
+        message: `Турнир Id=${turnamentId} не найден`,
+      };
+    }
+  }
 }
