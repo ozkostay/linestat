@@ -35,4 +35,10 @@ export class AppController {
     const gameId: number = Number(id.id);
     return this.appService.getOneGame(gameId);
   }
+
+  @Get('manygamebyplayerid/:id')
+  async getManyGame(@Param() id: { id: string }): Promise<any> {
+    const playerId: number = Number(id.id);
+    return this.appService.getManyGame(playerId);
+  }
 }

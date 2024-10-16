@@ -90,4 +90,27 @@ export class AppService {
     }
     // return `Game id=${gameId}`;
   }
+
+  async getManyGame(playerId): Promise<any> {
+    const objToFind = {
+      // where: [{ player1: playerId }, { player2: playerId }],
+      where: [{ player1: playerId }, { player2: playerId }]
+    };
+    console.log('objToFind', objToFind);
+    const response = await this.gamesRepository.find(objToFind);
+    // const response = await this.gamesRepository.find( );
+    if (response) {
+      return response;
+    } else {
+      throw new Error('Нет такого ID в games');
+    }
+
+    //   userRepository.find({
+    //     where: [
+    //         { firstName: "Timber", lastName: "Saw" },
+    //         { firstName: "Stan", lastName: "Lee" },
+    //     ],
+    // })
+    // return { playerId };
+  }
 }

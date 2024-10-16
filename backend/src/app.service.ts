@@ -67,7 +67,8 @@ export class AppService {
       options: null,
     };
     // const oneTurnament: OneGame = await this.httpQuerry(querryParam);
-    const oneTurnament: OneGame = await this.axiosService.httpQuerry(querryParam);
+    const oneTurnament: OneGame =
+      await this.axiosService.httpQuerry(querryParam);
 
     // Получаем Player1 по id
     querryParam = {
@@ -75,7 +76,8 @@ export class AppService {
       method: 'get',
       options: null,
     };
-    const onePlayer1: OnePlayer = await this.axiosService.httpQuerry(querryParam);
+    const onePlayer1: OnePlayer =
+      await this.axiosService.httpQuerry(querryParam);
 
     // Получаем Player2 по id
     querryParam = {
@@ -83,7 +85,8 @@ export class AppService {
       method: 'get',
       options: null,
     };
-    const onePlayer2: OnePlayer = await this.axiosService.httpQuerry(querryParam);
+    const onePlayer2: OnePlayer =
+      await this.axiosService.httpQuerry(querryParam);
 
     return { oneTurnament, onePlayer1, onePlayer2 };
   }
@@ -120,5 +123,20 @@ export class AppService {
     };
 
     return responseObj;
+  }
+
+  async gamesByPlayerId(playerId): Promise<any> {
+    console.log('SERVISE gamesByPlayerId=', playerId);
+    let querryParam: QuerryParamsDto;
+
+    // Получаем несколько gameыs по id
+    querryParam = {
+      url: `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/manygamebyplayerid/${playerId}`,
+      method: 'get',
+      options: null,
+    };
+    const manyGame = await this.axiosService.httpQuerry(querryParam);
+
+    return manyGame;
   }
 }

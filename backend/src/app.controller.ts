@@ -16,4 +16,10 @@ export class AppController {
     return this.appService.getGame(gameId);
   }
 
+  @Get('gamesbyplayerid/:id')
+  gamesByPlayerId(@Param() id: { id: string }): any {
+    const playerId = id.id;
+    return this.appService.gamesByPlayerId(playerId);
+  }
+
 }
