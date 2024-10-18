@@ -1,9 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import { LogService } from './log.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly logService: LogService,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -22,4 +26,10 @@ export class AppController {
     return this.appService.gamesByPlayerId(playerId);
   }
 
+  @Post('log')
+  logBody(@Body() body: any): any {
+    console.log('Body', JSON.stringify(body));
+    return this.logService.logBody(body);
+    // return 'LOG';
+  }
 }

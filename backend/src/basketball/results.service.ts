@@ -8,13 +8,18 @@ import { FromResulttPipe } from './dto/fromResultPipe.dto';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class ResultService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly appService: AppService,
+  ) {}
 
-  // === Для отладки
   async addResultsToGames(body: FromResulttPipe[]): Promise<any> {
+    this.appService.logToFile('Баскетбол - Начало обработки РЕЗУЛЬТАТОВ');
+
     console.log(
       'BASKETBALL SERVICE addResultsToGames() LENGTH ',
       body.length,
@@ -40,6 +45,8 @@ export class ResultService {
 
     const dataFromGames = await sendResultInGames();
     console.log('RESULTS BASKETBALL dataFromGames)= ', dataFromGames);
+
+    this.appService.logToFile('Баскетбол - результаты добавлены');
 
     return { status: 200, message: 'BASKETBALL SERVICE addResultsToGames Ok' };
   }

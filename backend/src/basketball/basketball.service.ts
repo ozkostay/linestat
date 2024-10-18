@@ -6,6 +6,7 @@ import { Basketball } from 'src/entities/tennis.entity';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { LinesService } from './lines.service';
+import { AppService } from 'src/app.service';
 
 @Injectable()
 export class BasketballService {
@@ -14,6 +15,7 @@ export class BasketballService {
     private basketballRepository: Repository<Basketball>,
     private readonly httpService: HttpService,
     private readonly linesService: LinesService,
+    private readonly appService: AppService,
     // private readonly linesService: LinesService,
   ) {}
 
@@ -63,6 +65,7 @@ export class BasketballService {
   }
 
   async receivFromPars(arrLines: any[]) {
+    this.appService.logToFile('Баскетбол - Начало обработки линий');
     const sport = 'basketball';
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map();
@@ -91,6 +94,14 @@ export class BasketballService {
         `${i.turnament}&&&nosurface&&&${sport}`,
       ).surface; //Заполняем id покрытия
       console.log('999-2',i.name1);
+      
+      if (!i.name1) {
+        this.appService.logToFile(`ERROR: Баскетбол - пустое имя Игрока1 ${i.name1}`);
+      }
+      if (!i.name2) {
+        this.appService.logToFile(`ERROR: Баскетбол - пустое имя Игрока2 ${i.name2}`);
+      }
+
       i.name1Id = mapPlayers.get(`${i.name1}`).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(`${i.name2}`).id; //Заполняем id Игрока2
     });
@@ -113,14 +124,14 @@ export class BasketballService {
     
    
     const dataFromGames = await makeGames();
-    
-    
+    this.appService.logToFile('Баскетбол - Games обработаны');
+
     console.log('!!!W BASKETBALL dataFromGames)= ', dataFromGames);
-
-    // objResponse = { arrLines: dataFromGames}; НЕ НАДО
-
-    // Потом открыть
+    
     const resLines = this.linesService.addLines(dataFromGames);
+    this.appService.logToFile('Баскетбол - Lines обработаны');
+    this.appService.logToFile('');
+
     return { status: 200 };
   }
 }
