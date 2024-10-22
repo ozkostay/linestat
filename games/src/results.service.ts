@@ -6,6 +6,7 @@ import { gamesDto } from './dto/game.dto';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
 import { lastValueFrom, Observable } from 'rxjs';
+import { AppService } from './app.service';
 
 @Injectable()
 export class ResultsService {
@@ -13,6 +14,7 @@ export class ResultsService {
     @InjectRepository(Games)
     private gamesRepository: Repository<Games>,
     private readonly httpService: HttpService,
+    private readonly appService: AppService,
   ) {}
 
   async getallEmptyResults(sport) {
@@ -85,18 +87,25 @@ export class ResultsService {
       game.date = newDate;
       // Сохраняем изменения
       const modyGame = await this.gamesRepository.save(game);
+      
+      this.appService.logToFile(`Результат записан ${JSON.stringify(modyGame)}`);
+      
       console.log('Обновили Game ', game);
       return modyGame;
     } catch (error) {
       console.error(error);
+      
+      this.appService.logToFile(`Ошибка при добавлении результата ${JSON.stringify(error.message)}`);
+      
       return;
     }
   }
 
   async addResults(arrResults: any[]): Promise<any> {
-    // Получаем Map('Player1-Player2', idGame)
-
     const sport = arrResults[0].sport;
+    this.appService.logToFile(`Начало обработки результатов ${sport}`);
+      
+    // Получаем Map('Player1-Player2', idGame)
     const allEmptyResults = await this.getallEmptyResults(sport);
     console.log('allEmptyResults', allEmptyResults[0]);
 
@@ -126,6 +135,7 @@ export class ResultsService {
 
     console.log('Обработка результатов закончена.!!!');
     // console.log('GAME RESULT-SERVISE OK', arrResults.length, arrResults[0]);
+    this.appService.logToFile(`Конец обработки результатов`);
 
     return { status: 200, message: 'get Results in servise GAME!!!' };
   }

@@ -8,6 +8,7 @@ import { setPriority } from 'os';
 import { gamesDto } from './dto/game.dto';
 import { resolve } from 'path';
 import { error } from 'console';
+import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
@@ -20,11 +21,25 @@ export class AppService {
     return 'Hello World! GAMES';
   }
 
+  logToFile(content: string) {
+    let textrow = `${Date()} ${content}\n`;
+    fs.writeFile(`games.log`, textrow, { flag: 'a' }, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // file written successfully
+      }
+    });
+  }
+
   async createGames(body: gamesDto): Promise<gamesDto> {
     console.log('createGames', body.player1, '-', body.player2);
     // body.timestamp = new Date();
     // body.result = '';
     const newGame = this.gamesRepository.create(body);
+    
+    this.logToFile(`Создана игра ${JSON.stringify(newGame)}`);
+    
     return await this.gamesRepository.save(newGame);
   }
 
@@ -48,19 +63,10 @@ export class AppService {
 
   async getGames(body: BodyGames): Promise<any> {
     const { arrLines } = body;
-    console.log('GAMES SERVICE');
+    const sport = arrLines[0].sportId;
+    this.logToFile(`Старт обработки GAMES sport=${sport}`);
 
-    // Первый рабочий вариант =>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    // const addGameId = async () => {
-    //   const arrLinesReturn = [];
-    //   for (const i of arrLines) {
-    //     const temp = Object.assign(i);
-    //     const res = await this.findGames(i);
-    //     temp.gameId = res.id;
-    //     arrLinesReturn.push(temp);
-    //   }
-    //   return arrLinesReturn;
-    // };
+    console.log('GAMES SERVICE', body);
 
     const addGameId = async () => {
       const arrLinesReturn = [];
@@ -75,6 +81,10 @@ export class AppService {
 
     const data = await addGameId();
     const objResponse = { arrLines: data };
+
+    this.logToFile(`Конец обработки GAMES sport=${sport}`);
+    this.logToFile(`=====`);
+
     return objResponse;
   }
 
@@ -89,5 +99,28 @@ export class AppService {
       throw new Error('Нет такого ID в games');
     }
     // return `Game id=${gameId}`;
+  }
+
+  async getManyGame(playerId): Promise<any> {
+    const objToFind = {
+      // where: [{ player1: playerId }, { player2: playerId }],
+      where: [{ player1: playerId }, { player2: playerId }]
+    };
+    console.log('objToFind', objToFind);
+    const response = await this.gamesRepository.find(objToFind);
+    // const response = await this.gamesRepository.find( );
+    if (response) {
+      return response;
+    } else {
+      throw new Error('Нет такого ID в games');
+    }
+
+    //   userRepository.find({
+    //     where: [
+    //         { firstName: "Timber", lastName: "Saw" },
+    //         { firstName: "Stan", lastName: "Lee" },
+    //     ],
+    // })
+    // return { playerId };
   }
 }

@@ -7,10 +7,12 @@ import { DbModuleLines } from './db/db.module';
 import { HockeyModule } from './hockey/hockey.module';
 import { BasketballModule } from './basketball/basketball.module';
 import { HttpModule } from '@nestjs/axios';
+import { AxiosService } from './axios.service';
+import { LogService } from './log.service';
 
 @Module({
   imports: [DbModuleLines, TennisModule, FootballModule, HockeyModule, BasketballModule, HttpModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AxiosService, LogService],
 })
 export class AppModule {}
