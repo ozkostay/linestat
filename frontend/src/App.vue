@@ -1,14 +1,17 @@
 <template>
   <div>
     <Header-main />
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div class="work-wrap">
+      <side-left />
+      <app-main />
+    </div>
   </div>
 </template>
 
 <script>
+import AppMain from "./components/AppMain.vue";
 import HeaderMain from "./components/HeaderMain.vue";
-import HelloWorld from "./components/HelloWorld.vue";
+import SideLeft from "./components/SideLeft.vue";
 
 export default {
   name: "App",
@@ -18,8 +21,9 @@ export default {
     };
   },
   components: {
-    HelloWorld,
-    HeaderMain
+    HeaderMain,
+    SideLeft,
+    AppMain,
   },
 };
 </script>
@@ -31,6 +35,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 25px 100px;
+}
+.work-wrap {
+  display: flex;
+  min-height: 400px;
 }
 </style>
