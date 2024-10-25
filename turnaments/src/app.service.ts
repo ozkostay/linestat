@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { In, LessThan, Like, Repository } from 'typeorm';
 import { Turnaments } from './entities/turnaments.entity';
 import { CreateTurnament } from './dto/createTurnament.dto';
+import * as fs from 'fs';
 
 const mapSurface = new Map();
 mapSurface.set('ТРАВА', 1);
@@ -17,6 +18,17 @@ export class AppService {
     @InjectRepository(Turnaments)
     private turnamentsRepository: Repository<Turnaments>,
   ) {}
+
+  logToFile(content: string) {
+    let textrow = `${Date()} ${content}\n`;
+    fs.writeFile(`turnament.log`, textrow, { flag: 'a' }, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // file written successfully
+      }
+    });
+  }
 
   getHello(): string {
     return 'Hello World! TURNAMENTS';
@@ -40,6 +52,7 @@ export class AppService {
       surface: mapSurface.get(body.surface) || 0,
     };
     const newTurnament = this.turnamentsRepository.create(templateTurnament);
+    this.logToFile('createTurnament, OK')
     return this.turnamentsRepository.save(newTurnament);
   }
 
@@ -74,6 +87,7 @@ export class AppService {
 
     if (response) {
       console.log('ttt', 333);
+      this.logToFile('findTurnament, OK')
       return response;
     } else {
       console.log('ttt', 3434, turnSurf);
@@ -87,9 +101,21 @@ export class AppService {
 
   async getTurnament(body: BodyTurnament): Promise<any> {
     console.log('SERVICE', body);
+    this.logToFile('getTurnament, 102')
     const turnament = this.findTurnament(body);
     return turnament;
   }
+
+
+
+
+
+
+
+
+
+
+
 
   async getOneTurnament(turnamentId: number): Promise<any> {
     const response = await this.turnamentsRepository.findOneBy({

@@ -59,7 +59,7 @@ export class AppService {
     const newPlayer = this.playresRepository.create(tempPlayer);
     
     this.logToFile(`Создан игрок ${JSON.stringify(newPlayer)}`);
-
+    this.logToFile('createPlayers OK');
     return this.playresRepository.save(newPlayer);
   }
 
@@ -91,6 +91,7 @@ export class AppService {
     };
     const response = await this.playresRepository.findOneBy(objToFind);
     if (response) {
+      this.logToFile('findPlayers OK');
       return response;
     } else {
       return this.createPlayers(objToFind);
@@ -99,7 +100,7 @@ export class AppService {
 
   async getPlayers(body: BodyPlayers): Promise<any> {
     // console.log('SERVICE', body);
-
+    this.logToFile('getPlayers');
     const name_ru = body.name;
     const sport = body.sport;
 
