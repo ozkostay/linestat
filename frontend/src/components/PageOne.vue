@@ -24,7 +24,7 @@ export default {
 
 .one-wrap {
   border: 1px solid red;
-  min-width: 250px;
+  width: 100%;
   padding: 10px;}
 
   .sb-btn {
