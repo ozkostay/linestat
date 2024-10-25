@@ -66,6 +66,7 @@ export class BasketballService {
 
   async receivFromPars(arrLines: any[]) {
     this.appService.logToFile('Баскетбол - Начало обработки линий');
+    this.appService.logToFile('Баскетбол - turnament');
     const sport = 'basketball';
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map();
@@ -78,6 +79,7 @@ export class BasketballService {
     }
 
     // Делаем уникальныx Игроков
+    this.appService.logToFile('Баскетбол - players');
     const mapPlayersName: any = new Map();
     arrLines.forEach((i) => {
       mapPlayersName.set(`${i.name1}`, null);
@@ -107,6 +109,7 @@ export class BasketballService {
     });
 
     console.log('888', arrLines[2]);
+    this.appService.logToFile('Баскетбол - games ' + JSON.stringify(arrLines[2]));
     
     // Работаем с сервисом GAMES
     const makeGames = async () => {
