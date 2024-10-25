@@ -1,20 +1,18 @@
 <template>
-  <div class="side-wrap">
-    <div class="sb-btn" @click="sb_btn_click()">Страница 1</div>
-    <div class="sb-btn" @click="sb_btn_click()">Страница 2</div>
+  <div class="one-wrap">
+    Page One
   </div>
 </template>
 
 <script>
 export default {
-  name: "SideLeft",
+  name: "PageOne",
   props: {
     msg: String,
   },
   methods: {
     sb_btn_click() {
-    console.log('sb_btn_click === ');
-      
+    console.log('sb_btn_click === ')
   }
   }
   
@@ -24,7 +22,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.side-wrap {
+.one-wrap {
   border: 1px solid red;
   min-width: 250px;
   padding: 10px;}

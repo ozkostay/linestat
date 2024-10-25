@@ -1,13 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-
 import { createMemoryHistory, createRouter } from 'vue-router'
 import PageOne from './components/PageOne.vue'
 import PageTwo from './components/PageTwo.vue'
-import AppMain from './components/AppMain.vue'
 
 const routes = [
-  { path: '/', component: AppMain },
   { path: '/pageone', component: PageOne },
   { path: '/pagetwo', component: PageTwo },
 ]
@@ -17,6 +12,5 @@ const router = createRouter({
   routes,
 })
 
-createApp(App)
-.use(router)
-.mount('#app')
+//export router;
+

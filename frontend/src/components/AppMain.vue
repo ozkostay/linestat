@@ -1,6 +1,8 @@
 <template>
   <div class="main-wrap">
-    <h3>This is Main</h3>
+    <!-- <h3>This is Main</h3> -->
+    <!-- <router-view></router-view> -->
+     <h3>Main</h3>
   </div>
 </template>
 

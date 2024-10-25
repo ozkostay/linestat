@@ -1,20 +1,18 @@
 <template>
-  <div class="side-wrap">
-    <div class="sb-btn" @click="sb_btn_click()">Страница 1</div>
-    <div class="sb-btn" @click="sb_btn_click()">Страница 2</div>
+  <div>
+    Page Two
   </div>
 </template>
 
 <script>
 export default {
-  name: "SideLeft",
+  name: "PageTwo",
   props: {
     msg: String,
   },
   methods: {
     sb_btn_click() {
-    console.log('sb_btn_click === ');
-      
+    console.log('sb_btn_click === ')
   }
   }
   

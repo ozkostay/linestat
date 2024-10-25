@@ -3,13 +3,13 @@
     <Header-main />
     <div class="work-wrap">
       <side-left />
-      <app-main />
+      <RouterView />
     </div>
   </div>
 </template>
 
 <script>
-import AppMain from "./components/AppMain.vue";
+// import AppMain from "./components/AppMain.vue";
 import HeaderMain from "./components/HeaderMain.vue";
 import SideLeft from "./components/SideLeft.vue";
 
@@ -23,7 +23,6 @@ export default {
   components: {
     HeaderMain,
     SideLeft,
-    AppMain,
   },
 };
 </script>
