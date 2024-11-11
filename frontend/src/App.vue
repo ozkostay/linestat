@@ -3,7 +3,8 @@
     <Header-main />
     <div class="work-wrap">
       <side-left />
-      <RouterView />
+      <!-- <RouterView /> -->
+      <router-view />
     </div>
   </div>
 </template>

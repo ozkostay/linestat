@@ -1,12 +1,18 @@
 <template>
   <div class="header-wrap">
-   <h3>This is header</h3>
+   <h1>{{ title + ' - ' + now }}</h1>
   </div>
 </template>
 
 <script>
 export default {
   name: 'HeaderMain',
+  data() {
+    return {
+      title: "Title from data()",
+      now: new Date().toLocaleDateString()
+    }
+  },  
   props: {
     msg: String
   }

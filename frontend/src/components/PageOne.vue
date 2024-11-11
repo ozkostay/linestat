@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     sb_btn_click() {
-    console.log('sb_btn_click === ')
+    console.log('sb_btn_click === =')
   }
   }
   
