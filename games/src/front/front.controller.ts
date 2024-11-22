@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { FrontService } from './front.service';
-import { CreateFrontDto } from './dto/create-front.dto';
-import { UpdateFrontDto } from './dto/update-front.dto';
+
 
 @Controller('front')
 export class FrontController {
@@ -32,9 +31,11 @@ export class FrontController {
   //   return this.frontService.remove(+id);
   // }
 
-  @Post('empty')
-  create(@Body() body: any) {
-    console.log(body);
-    return this.frontService.getEmpty(body);
+  @Get('empty')
+  findAll(@Query() params: any) {
+    console.log('contr params', params)
+    
+    return this.frontService.getEmpty(params);
   }
+  
 }

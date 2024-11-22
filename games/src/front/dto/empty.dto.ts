@@ -1,4 +1,6 @@
 export class emptyDto {
-  resul: any;
-  sport: number;
+  sport?: number;
+  turnament?: number;
+  offset?: number;
+  limit?: number;
 }
