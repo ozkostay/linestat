@@ -6,19 +6,27 @@
       <!-- <RouterView /> -->
       <router-view />
     </div>
+    {{ gamesStore.games }}
   </div>
+  
 </template>
 
 <script>
 // import AppMain from "./components/AppMain.vue";
 import HeaderMain from "./components/HeaderMain.vue";
 import SideLeft from "./components/SideLeft.vue";
+import { useMovieStore } from "./stores/MovieStore";
+import { useGamesStore } from "./stores/GamesStore";
+
+// const movieStore = useMovieStore();
 
 export default {
   name: "App",
   data() {
     return {
       title: "fffffff",
+      movieStore: useMovieStore(),
+      gamesStore: useGamesStore(),
     };
   },
   components: {

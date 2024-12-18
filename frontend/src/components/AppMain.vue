@@ -10,11 +10,28 @@
       :is-open="item.isOpen"
       v-on:open-news="countOpen++"
     ></app-news>
+        
+    <app-slots>
+      <template #:second>
+        <div>Second slot</div>
+      </template>
+      Childe in slots
+    </app-slots>
+
+    <app-list>
+      <template #default="slotProps">
+        <span style="color: #c25205;">{{slotProps.iter}}</span>
+      </template>  
+    </app-list>
+
+
   </div>
 </template>
 
 <script>
 import AppNews from "./AppNews.vue";
+import AppSlots from "./AppSlots.vue";
+import AppList from "./AppList.vue";
 export default {
   name: "AppMain",
   data() {
@@ -36,6 +53,8 @@ export default {
   },
   components: {
     "app-news": AppNews,
+    "app-slots": AppSlots,
+    "app-list": AppList,
   },
 };
 </script>

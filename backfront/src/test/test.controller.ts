@@ -13,11 +13,15 @@ export class TestController {
   //   return this.testService.create(createTestDto);
   // }
 
-  // @Get()
-  // findAll() {
-  //   return this.testService.findAll();
-  // }
+  @Get()
+  findAll() {
+    return this.testService.findAll();
+  }
 
+  @Get('games')
+  getGames() {
+    return this.testService.getGames();
+  }
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.testService.findOne(+id);
