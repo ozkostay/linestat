@@ -56,15 +56,18 @@ export class TestService {
       const data: GamesDto[] = await res.json();
       // console.log(data);
       const games: any[] = [];
-      data.forEach(async (item: GamesDto) => {
-        // console.log(item);
-        games.push({
-          id: item.id,
-          sport: item.sport,
-          player1: await this.getPlayer(item.player1, 1),
-          player2: await this.getPlayer(item.player2, 2),
+      const aaa = async () => {
+        data.forEach(async (item: GamesDto) => {
+          // console.log(item);
+          games.push({
+            id: item.id,
+            sport: item.sport,
+            player1: await this.getPlayer(item.player1, 1),
+            player2: await this.getPlayer(item.player2, 2),
+          });
         });
-      });
+      }
+      
 
       console.log(999, games);
 
