@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { GamesDto } from './dto/games.dto';
+import { Games2FrontDto } from './dto/games2front.dto';
 
 @Injectable()
 export class TestService {
@@ -13,28 +14,16 @@ export class TestService {
     return `This action returns all TEST LINESTAT BACKFRONT`;
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} test`;
-  // }
-
-  // update(id: number, updateTestDto: UpdateTestDto) {
-  //   return `This action updates a #${id} test`;
-  // }
-
-  // remove(id: number) {  //   return `This action removes a #${id} test`;
-  // }
-  async getPlayer(id: number, num: number) {
-    // console.log('playyer', id, num);
+  async getPlayer(id: number) {
     const url = `http://localhost:13903/longname/${id}`;
-    //console.log('data', url);
     try {
-      const res = await fetch(url, );
-      const data: any = await res.json();
-      console.log('data longname', data);
+      const res = await fetch(url);
+      const data: {longName: string} = await res.json();
       const player = {
         id: id,
-        name: data.longname,
+        name: data.longName ? data.longName : `Игрок не известен ${id}`,
       };
+
       return player;
     } catch (error) {
       throw new Error(error);
@@ -42,37 +31,53 @@ export class TestService {
   }
 
   async getTurnament(id: number) {
-    const turnament = {
-      id: id,
-      name: 'ТурнирТест',
-    };
-    return turnament;
+    const url = `http://localhost:13902/oneturnament/${id}`;
+    try {
+      const res = await fetch(url);
+      const data: {name_ru: string} = await res.json();
+      const turnament = {
+        id: id,
+        name: data.name_ru ? data.name_ru : `Турнир не известен ${id}`,
+      };
+      return turnament;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  async getGames() {
+  async fillGames(data: GamesDto[]) {
+    const games: Games2FrontDto[] = [];
+
+    for await (const item of data) {
+      // console.log(444, item);
+      games.push({
+        id: item.id,
+        timestamp: item.timestamp,
+        sport: item.sport,
+        turnament: await this.getTurnament(item.turnament),
+        player1: await this.getPlayer(item.player1),
+        player2: await this.getPlayer(item.player2),
+        result: item.result,
+        date: item.date,
+      });
+    }
+
+    return games;
+  }
+
+  async getGames(params) {
+    let url = 'http://localhost:13904/front/empty';
+    let firstParam = true;
     try {
-      const url = 'http://localhost:13904/front/empty?sport=2&offset=0&limit=5';
+      for (const [key, value] of Object.entries(params)) {
+        url += (firstParam ? '?' : '&') + `${key}=${value}`;
+        firstParam = false;
+      }
+      console.log(777, url);
+    
       const res = await fetch(url);
       const data: GamesDto[] = await res.json();
-      // console.log(data);
-      const games: any[] = [];
-      const aaa = async () => {
-        data.forEach(async (item: GamesDto) => {
-          // console.log(item);
-          games.push({
-            id: item.id,
-            sport: item.sport,
-            player1: await this.getPlayer(item.player1, 1),
-            player2: await this.getPlayer(item.player2, 2),
-          });
-        });
-      }
-      
-
-      console.log(999, games);
-
-      // id: data.id};
-      // games.player1 = data.id;
+      const games = await this.fillGames(data);
 
       return games;
     } catch (error) {

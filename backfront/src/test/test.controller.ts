@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { TestService } from './test.service';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
@@ -19,8 +19,9 @@ export class TestController {
   }
 
   @Get('games')
-  getGames() {
-    return this.testService.getGames();
+  getGames(@Query() params: any) {
+    console.log('==== prams', params);
+    return this.testService.getGames(params);
   }
   // @Get(':id')
   // findOne(@Param('id') id: string) {
