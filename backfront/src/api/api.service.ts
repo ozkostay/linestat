@@ -5,20 +5,16 @@ import { GamesDto } from './dto/games.dto';
 import { Games2FrontDto } from './dto/games2front.dto';
 
 @Injectable()
-export class TestService {
-  create(createTestDto: CreateTestDto) {
-    return 'This action adds a new test';
-  }
-
+export class ApiService {
   findAll() {
-    return `This action returns all TEST LINESTAT BACKFRONT`;
+    return `This action returns all API LINESTAT BACKFRONT`;
   }
 
   async getPlayer(id: number) {
-    const url = `http://localhost:13903/longname/${id}`;
+    const url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/longname/${id}`;
     try {
       const res = await fetch(url);
-      const data: {longName: string} = await res.json();
+      const data: { longName: string } = await res.json();
       const player = {
         id: id,
         name: data.longName ? data.longName : `Игрок не известен ${id}`,
@@ -31,10 +27,10 @@ export class TestService {
   }
 
   async getTurnament(id: number) {
-    const url = `http://localhost:13902/oneturnament/${id}`;
+    const url = `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}/oneturnament/${id}`;
     try {
       const res = await fetch(url);
-      const data: {name_ru: string} = await res.json();
+      const data: { name_ru: string } = await res.json();
       const turnament = {
         id: id,
         name: data.name_ru ? data.name_ru : `Турнир не известен ${id}`,
@@ -65,16 +61,17 @@ export class TestService {
     return games;
   }
 
-  async getGames(params) {
-    let url = 'http://localhost:13904/front/empty';
+  async getGames(params: any) {
+    // let url = 'http://localhost:13904/front/empty';
+    let url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/front/empty`;
+    console.log('url', url);
     let firstParam = true;
     try {
       for (const [key, value] of Object.entries(params)) {
         url += (firstParam ? '?' : '&') + `${key}=${value}`;
         firstParam = false;
       }
-      console.log(777, url);
-    
+
       const res = await fetch(url);
       const data: GamesDto[] = await res.json();
       const games = await this.fillGames(data);
@@ -83,5 +80,9 @@ export class TestService {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  async getTurnaments(id: number) {
+    return 'service turn ' + id;
   }
 }
