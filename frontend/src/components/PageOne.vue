@@ -1,10 +1,12 @@
 <template>
   <div class="one-wrap">
     <div v-if="gamesStore.loader" class="loader"></div>
-    <button @click="deleteSelected">Delete selected {{ gamesStore.games.length}}</button>
+    <button @click="deleteSelected">
+      Delete selected {{ gamesStore.games.length }}
+    </button>
     <table class="tbl">
       <GamesItem
-        v-for="item in gamesStore.games"
+        v-for="item in games"
         :key="item.id"
         :item="item"
         @action="onAction"
@@ -13,45 +15,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useGamesStore } from "@/stores/GamesStore";
 import GamesItem from "./GamesItem.vue";
-// {{ gamesStore.games }}
-export default {
-  name: "PageOne",
-  data() {
-    return {
-      gamesStore: useGamesStore(),
-    };
-  },
-  props: {
-    msg: String,
-  },
-  methods: {
-    onQuery() {
-      this.gamesStore.getGames();
-      console.log("onQuery === =", this.games);
-    },
-    onAction(id, action) {
-      console.log("111", id, action);
-      if (action === "delete") {
-        this.gamesStore.toggleDelete(id);
-      }
-    },
-    deleteSelected() {
-      const idForDelete = [];
-      this.gamesStore.games.forEach((item) => {
-        if (item.delete === true) {
-          idForDelete.push(item.id);
-        }
-      });
-      console.log("Delete selected", idForDelete);
-      this.gamesStore.deleteGames(idForDelete);
-    }
-  },
-  components: {
-    GamesItem,
-  },
+import { storeToRefs } from "pinia";
+
+const gamesStore = useGamesStore();
+const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
+
+const onAction = (id, action) => {
+  if (action === "delete") {
+    gamesStore.toggleDelete(id);
+  }
+};
+
+const deleteSelected = () => {
+  const idForDelete = games.value
+    .filter((item) => item.delete)
+    .map((item) => item.id);
+  gamesStore.deleteGames(idForDelete);
 };
 </script>
 
