@@ -1,8 +1,15 @@
 <template>
-  <tr v-if="item.player1">
+  <tr v-if="item.player1" @click="childEmit(item)">
     <td class="tbl">{{ item.id }}</td>
+    <td class="tbl">{{ new Date(item.timestamp).toLocaleDateString() }}</td>
     <td class="tbl">{{ item.player1.name }}</td>
     <td class="tbl">{{ item.player2.name }}</td>
+    <td class="tbl">{{ item.turnament.name }}</td>
+    <td class="tbl"><button @click="this.tdAction = 'edit'">Edit</button></td>
+    <td class="tbl">{{ item.delete }}</td>
+    <td class="tbl">
+      <input type="checkbox" :checked="item.delete" @click="this.tdAction = 'delete'"/>
+    </td>
   </tr>
 </template>
 
@@ -13,6 +20,7 @@ export default {
   data() {
     return {
       testItem: "ITEM-GAME",
+      tdAction: null,
     };
   },
   methods: {
@@ -20,6 +28,12 @@ export default {
       // this.gamesStore.getGames();
       // console.log("onQuery === =", this.games);
     },
+    childEmit(item) {
+      // console.log(item.id, this.tdAction);
+      this.$emit("action", item.id, this.tdAction);
+      this.tdAction = null;
+    },
+ 
   },
 };
 </script>

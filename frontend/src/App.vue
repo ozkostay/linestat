@@ -1,22 +1,22 @@
 <template>
   <div>
-    <Header-main />
+    <header-main />
     <div class="work-wrap">
-      <side-left />
-      <!-- <RouterView /> -->
+      <side-left-admin v-if="sideStore.activeTab === 2" />
+      <side-left-user v-if="sideStore.activeTab === 1" />
       <router-view />
     </div>
-    {{ gamesStore.games }}
   </div>
-  
 </template>
 
 <script>
 // import AppMain from "./components/AppMain.vue";
 import HeaderMain from "./components/HeaderMain.vue";
-import SideLeft from "./components/SideLeft.vue";
-import { useMovieStore } from "./stores/MovieStore";
+// import SideLeft from "./components/SideLeft.vue";
+import SideLeftAdmin from "./components/SideLeftAdmin.vue";
+import SideLeftUser from "./components/SideLeftUser.vue";
 import { useGamesStore } from "./stores/GamesStore";
+import { useSideStore } from "@/stores/SideStore";
 
 // const movieStore = useMovieStore();
 
@@ -25,13 +25,14 @@ export default {
   data() {
     return {
       title: "fffffff",
-      movieStore: useMovieStore(),
       gamesStore: useGamesStore(),
+      sideStore: useSideStore(),
     };
   },
   components: {
     HeaderMain,
-    SideLeft,
+    SideLeftAdmin,
+    SideLeftUser,
   },
 };
 </script>

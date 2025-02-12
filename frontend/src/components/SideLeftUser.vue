@@ -1,5 +1,6 @@
 <template>
   <div class="side-wrap">
+    <p>User</p>
     <div class="sb-btn" @click="sb_btn_click()">Страница 1</div>
     <div class="sb-btn" @click="sb_btn_click2()">Страница 2</div>
   </div>
@@ -7,7 +8,7 @@
 
 <script>
 export default {
-  name: "SideLeft",
+  name: "SideLeftUser",
   props: {
     msg: String,
   },

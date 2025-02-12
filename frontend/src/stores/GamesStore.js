@@ -2,17 +2,31 @@ import { defineStore } from "pinia";
 
 export const useGamesStore = defineStore("gamesStore", {
   state: () => ({
-    games: [1,2,3],
-    activeTab: 1,
+    games: [],
+    loader: false,
   }),
   actions: {
-    async getGames() {
+    deleteGames(arrId) {
+      // const tempArr = this.games.filter((item) => !arrId.includes(item.id));
+      // this.games = tempArr;
+      this.$patch(state => {
+        state.games = state.games.filter((item) => !arrId.includes(item.id));
+      });
+      console.log('AFTER DELETE', this.games);
+    },
+    toggleDelete(id) {
+      this.games = this.games.map(item => {
+        if (item.id === id) {
+          return { ...item, delete: !item.delete };
+        }
+        return item;
+      });
+    },
+    async getGames(sportId) {
       try {
         //Access-Control-Allow-Origin: *
-
-        // const url =
-        //   "http://localhost:13904/front/empty?sport=2&offset=0&limit=5";
-        const url = "http://localhost:13099/test/games";
+        this.loader = true;
+        const url = `http://localhost:13099/api/games/?sport=${sportId}`;
         const res = await fetch(url, {
           method: "GET",
           headers: {
@@ -22,9 +36,13 @@ export const useGamesStore = defineStore("gamesStore", {
         });
         const data = await res.json();
         console.log("action pinia data from fetch", data);
-        this.games = data;
+        const newKey = 'delete';
+        const newData = data.map(obj => ({ ...obj, [newKey]: false }));
+        this.games = newData;
+        this.loader = false;
       } catch (error) {
         console.log("action pinia data from fetch", error);
+        this.loader = false;
       }
 
       // return data;
