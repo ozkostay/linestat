@@ -30,7 +30,7 @@ export default {
     },
     childEmit(item) {
       // console.log(item.id, this.tdAction);
-      this.$emit("action", item.id, this.tdAction);
+      this.$emit("action", item, this.tdAction);
       this.tdAction = null;
     },
 

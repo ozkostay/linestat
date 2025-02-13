@@ -1,42 +1,49 @@
 <template>
   <div class="dialog" v-if="props.show" @click.stop="hideDialog">
     <div @click.stop class="dialog__content">
-      <slot></slot>
-      <button @click="closeModal">Закрыть</button>
+      <!-- <slot></slot> -->
+      <div class="modaldiv">{{ item.id }}</div>
+      <div class="modaldiv">
+        {{ new Date(item.timestamp).toLocaleDateString() }}
+      </div>
+      <div class="modaldiv">{{ item.turnament.name }}</div>
+      <div class="modaldiv">
+        {{ item.player1.name + " - " + item.player2.name }}
+      </div>
+      <div class="modaldiv">SCORE: <input type="text" v-model="score" /></div>
+      <div>
+        <button class="modaldiv btn" @click="closeModal">Закрыть</button>
+        <button class="modaldiv btn" @click="okModal">OK</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-
-const props = defineProps({
-    show: Boolean, // Указываем тип Boolean
-  });
-
-const emit = defineEmits(['close']);
-const closeModal = () => {
-  emit('close');
-};
-// import { useGamesStore } from "@/stores/GamesStore";
-// import GamesItem from "./GamesItem.vue";
+import { defineProps, defineEmits } from "vue";
+import { useGamesStore } from "@/stores/GamesStore";
+import { ref } from 'vue';
 // import { storeToRefs } from "pinia";
 
-// const gamesStore = useGamesStore();
-// const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
+const score = ref('');
+const gamesStore = useGamesStore();
+//const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
 
-// const onAction = (id, action) => {
-//   if (action === "delete") {
-//     gamesStore.toggleDelete(id);
-//   }
-// };
+const props = defineProps({
+  show: Boolean, // Указываем тип Boolean
+  item: Object || null,
+});
 
-// const deleteSelected = () => {
-//   const idForDelete = games.value
-//     .filter((item) => item.delete)
-//     .map((item) => item.id);
-//   gamesStore.deleteGames(idForDelete);
-// };
+const emit = defineEmits(["close"]);
+const closeModal = () => { 
+  emit("close");
+};
+const okModal = () => {
+  console.log("Записываем");
+  gamesStore.addResult(props.item.id, score.value);
+  score.value = '';
+  emit("close");
+};
 
 </script>
 
@@ -60,4 +67,28 @@ const closeModal = () => {
   min-width: 300px;
   padding: 20px;
 }
+
+.modaldiv {
+  margin: 10px;
+}
+
+.btn {
+  display: inline-block;
+  color: grey;
+  font-weight: 700;
+  text-decoration: none;
+  user-select: none;
+  padding: .5em 2em;
+  outline: none;
+  border: 2px solid;
+  border-radius: 1px;
+  transition: 0.2s;
+  width: 100px;
+  align-items: center;
+
+} 
+
+.btn:hover { background: rgba(255,255,255,.2); }
+.btn:active { background: white; }
+
 </style>

@@ -6,6 +6,11 @@ export const useGamesStore = defineStore("gamesStore", {
     loader: false,
   }),
   actions: {
+    addResult(id, result) {
+      console.log("Записываем в БД", id, result);
+      const idToDelete = [id];
+      this.deleteGames(idToDelete);  
+    },
     deleteGames(arrId) {
       // const tempArr = this.games.filter((item) => !arrId.includes(item.id));
       // this.games = tempArr;

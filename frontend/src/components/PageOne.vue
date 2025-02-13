@@ -4,7 +4,7 @@
     <button @click="deleteSelected">
       Delete selected {{ gamesStore.games.length }}
     </button>
-    <EditModal :show="showModal" @close="showModal = false"/>
+    <EditModal :show="showModal" :item="itemToModal" @close="showModal = false"/>
     <table class="tbl">
       <GamesItem
         v-for="item in games"
@@ -24,21 +24,23 @@ import EditModal from "./EditModal.vue";
 import { ref } from 'vue';
 
 const showModal = ref(false);
+let itemToModal = null;
 
 const gamesStore = useGamesStore();
 const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
 
-const onAction = (id, action) => {
-  console.log('===', id, action);
+const onAction = (item, action) => {
+  console.log('===', item, action);
   // if (action === "delete") {
   //   gamesStore.toggleDelete(id);
   // }
   switch (action) {
   case "delete":
-    gamesStore.toggleDelete(id);
+    gamesStore.toggleDelete(item.id);
     break;
   case "edit":
     showModal.value = true;
+    itemToModal = item;
     break;
   default:
     console.log("ХЗ");
