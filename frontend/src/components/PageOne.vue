@@ -4,6 +4,7 @@
     <button @click="deleteSelected">
       Delete selected {{ gamesStore.games.length }}
     </button>
+    <EditModal :show="showModal" @close="showModal = false"/>
     <table class="tbl">
       <GamesItem
         v-for="item in games"
@@ -19,14 +20,29 @@
 import { useGamesStore } from "@/stores/GamesStore";
 import GamesItem from "./GamesItem.vue";
 import { storeToRefs } from "pinia";
+import EditModal from "./EditModal.vue";
+import { ref } from 'vue';
+
+const showModal = ref(false);
 
 const gamesStore = useGamesStore();
 const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
 
 const onAction = (id, action) => {
-  if (action === "delete") {
+  console.log('===', id, action);
+  // if (action === "delete") {
+  //   gamesStore.toggleDelete(id);
+  // }
+  switch (action) {
+  case "delete":
     gamesStore.toggleDelete(id);
-  }
+    break;
+  case "edit":
+    showModal.value = true;
+    break;
+  default:
+    console.log("ХЗ");
+}
 };
 
 const deleteSelected = () => {
