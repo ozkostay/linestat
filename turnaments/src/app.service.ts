@@ -34,6 +34,23 @@ export class AppService {
     return 'Hello World! TURNAMENTS';
   }
 
+  async getTurnamentsBySportId(sportId: number): Promise<any> {
+    const response = await this.turnamentsRepository.find({
+      where: {
+        sport: sportId,
+      },
+    });
+
+    if (response) {
+      // console.log('ttt', 333);
+      this.logToFile('findTurnaments BY sportId, OK');
+      return response;
+    } else {
+      // console.log('ttt', 3434, sportId);
+      return response;
+    }
+  }
+
   async getWithArrParam(): Promise<any> {
     // Просто пример!!! в работе не
     const arrParam = [0, 9];
@@ -52,7 +69,7 @@ export class AppService {
       surface: mapSurface.get(body.surface) || 0,
     };
     const newTurnament = this.turnamentsRepository.create(templateTurnament);
-    this.logToFile('createTurnament, OK')
+    this.logToFile('createTurnament, OK');
     return this.turnamentsRepository.save(newTurnament);
   }
 
@@ -87,7 +104,7 @@ export class AppService {
 
     if (response) {
       console.log('ttt', 333);
-      this.logToFile('findTurnament, OK')
+      this.logToFile('findTurnament, OK');
       return response;
     } else {
       console.log('ttt', 3434, turnSurf);
@@ -101,21 +118,10 @@ export class AppService {
 
   async getTurnament(body: BodyTurnament): Promise<any> {
     console.log('SERVICE', body);
-    this.logToFile('getTurnament, 102')
+    this.logToFile('getTurnament, 102');
     const turnament = this.findTurnament(body);
     return turnament;
   }
-
-
-
-
-
-
-
-
-
-
-
 
   async getOneTurnament(turnamentId: number): Promise<any> {
     const response = await this.turnamentsRepository.findOneBy({

@@ -6,6 +6,7 @@
       <side-left-user v-if="sideStore.activeTab === 1" />
       <router-view />
     </div>
+    {{ gamesStore.turnaments }}
   </div>
 </template>
 

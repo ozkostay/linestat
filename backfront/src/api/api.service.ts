@@ -10,6 +10,35 @@ export class ApiService {
     return `This action returns all API LINESTAT BACKFRONT`;
   }
 
+  async writeOneResult(oneResult: { id: any; result: any; date: any }) {
+    // console.log("API SERVISE writeOneResult()", oneResult);
+    let url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/oneresult`;
+    // console.log('url', url);
+    let firstParam = true;
+    try {
+      // for (const [key, value] of Object.entries(params)) {
+      //   url += (firstParam ? '?' : '&') + `${key}=${value}`;
+      //   firstParam = false;
+      // }
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json' // Указываем тип данных в теле запроса
+        },
+        body: JSON.stringify(oneResult)
+      })
+      // const game: GamesDto = await res.json();
+      const game: any = await res.json();
+      
+      return game;
+
+    } catch (error) {
+      throw new Error(error);
+    }
+    // return { status: 200, message: "API SERVISE writeOneResult()" }
+  }
+
   async getPlayer(id: number) {
     const url = `${process.env.HOST_SERVICE_PLAYERS}:${process.env.SERVICE_PORT_PLAYERS}/longname/${id}`;
     try {
@@ -62,7 +91,6 @@ export class ApiService {
   }
 
   async getGames(params: any) {
-    // let url = 'http://localhost:13904/front/empty';
     let url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/front/empty`;
     console.log('url', url);
     let firstParam = true;
@@ -82,7 +110,14 @@ export class ApiService {
     }
   }
 
-  async getTurnaments(id: number) {
-    return 'service turn ' + id;
+  async getTurnamentsBySportId(id: number) {
+    const url = `${process.env.HOST_SERVICE_TURNAMENTS}:${process.env.SERVICE_PORT_TURNAMENTS}/turnaments?sportId=${id}`;
+    try {
+      const res = await fetch(url);
+      const turnaments = await res.json();
+      return turnaments;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

@@ -1,32 +1,29 @@
 <template>
   <div class="side-wrap">
     <p>User</p>
-    <div class="sb-btn" @click="sb_btn_click()">Страница 1</div>
-    <div class="sb-btn" @click="sb_btn_click2()">Страница 2</div>
+    <select v-model="selectedSport">
+      <option value="1">Теннис</option>
+      <option value="2">Футбол</option>
+      <option value="3">Хоккей</option>
+      <option value="4">Баскетбол</option>
+    </select>
+    <div class="sb-btn" @click="btn_sport()">Выполнить</div>
   </div>
 </template>
 
-<script>
-export default {
-  name: "SideLeftUser",
-  props: {
-    msg: String,
-  },
-  methods: {
-    sb_btn_click() {
-      console.log("sb_btn_click === ");
-      this.$router.push({
-        path: "/pageone",
-      });
-    },
+<script setup>
+import { useGamesStore } from "@/stores/GamesStore";
+import { ref } from 'vue';
 
-    sb_btn_click2() {
-      console.log("sb_btn_click === ");
-      this.$router.push({
-        path: "/pagetwo",
-      });
-    },
-  },
+const selectedSport = ref(false);
+const gamesStore = useGamesStore();
+
+const btn_sport = () => {
+  console.log("ищем турниры");
+  gamesStore.getTurnaments(selectedSport.value);
+  // this.$router.push({
+  //   path: "/pageone",
+  // });
 };
 </script>
 

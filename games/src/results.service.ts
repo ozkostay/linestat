@@ -7,6 +7,7 @@ import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
 import { lastValueFrom, Observable } from 'rxjs';
 import { AppService } from './app.service';
+import { error } from 'console';
 
 @Injectable()
 export class ResultsService {
@@ -75,10 +76,16 @@ export class ResultsService {
   }
 
   async updateGames(inObj: { id: number; result: string; date: Date }) {
+    console.log(inObj);
     const { id, result, date } = inObj;
     try {
       const game = await this.gamesRepository.findOneBy({ id });
       // Обновляем свойства
+      if (!game) {
+        console.error('Не найдена такая игра id=', id);
+        return { statu0s: 444, message: 'Не найдена такая игра'}
+      }
+      
       game.result = result;
 
       console.log('=== date', date);
@@ -100,6 +107,7 @@ export class ResultsService {
       return;
     }
   }
+
 
   async addResults(arrResults: any[]): Promise<any> {
     const sport = arrResults[0].sport;

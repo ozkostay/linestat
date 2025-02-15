@@ -37,5 +37,5 @@ export class FrontController {
     
     return this.frontService.getEmpty(params);
   }
-  
+
 }

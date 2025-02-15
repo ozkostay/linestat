@@ -5,7 +5,8 @@ import * as fs from 'fs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
+  
   await app.listen(Number(process.env.SERVICE_PORT_TURNAMENTS), () => {
     console.log(
       `Service TURNAMENTS start on ${process.env.SERVICE_PORT_TURNAMENTS} port`,

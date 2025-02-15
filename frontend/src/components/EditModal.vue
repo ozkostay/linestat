@@ -11,6 +11,8 @@
         {{ item.player1.name + " - " + item.player2.name }}
       </div>
       <div class="modaldiv">SCORE: <input type="text" v-model="score" /></div>
+      <div class="modaldiv">Время: <input type="text" v-model="date" /></div>
+      
       <div>
         <button class="modaldiv btn" @click="closeModal">Закрыть</button>
         <button class="modaldiv btn" @click="okModal">OK</button>
@@ -26,6 +28,7 @@ import { ref } from 'vue';
 // import { storeToRefs } from "pinia";
 
 const score = ref('');
+const date = ref('');
 const gamesStore = useGamesStore();
 //const { games } = storeToRefs(gamesStore); // Для реактивного доступа к games
 
@@ -35,13 +38,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["close"]);
-const closeModal = () => { 
+const closeModal = () => {
+  console.log('Закрываем');
   emit("close");
 };
 const okModal = () => {
   console.log("Записываем");
-  gamesStore.addResult(props.item.id, score.value);
+  gamesStore.addResult(props.item.id, score.value, date.value);
   score.value = '';
+  date.value = '';
   emit("close");
 };
 
