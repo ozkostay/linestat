@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import * as _ from 'lodash';
 
 export const useGamesStore = defineStore("gamesStore", {
   state: () => ({
@@ -83,9 +84,13 @@ export const useGamesStore = defineStore("gamesStore", {
           },
         });
         const data = await res.json();
-        console.log("action pinia data from fetch", data);
+        // console.log("action pinia data from fetch", data);
         const newKey = "delete";
-        const newData = data.map((obj) => ({ ...obj, [newKey]: false }));
+        const tempNewData = data.map((obj) => ({ ...obj, [newKey]: false }));
+        const newData = _.sortBy(tempNewData, ['turnament.name', 'id']);
+        // const sortedPeople = _.sortBy(people, ['city', 'age']);
+        // ._.sortBy(people, ['city', 'age']);
+
         this.games = newData;
         this.loader = false;
       } catch (error) {
