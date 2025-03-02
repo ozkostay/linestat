@@ -10,11 +10,24 @@ export class ApiService {
     return `This action returns all API LINESTAT BACKFRONT`;
   }
 
+  async getPlayerByTurnament(turnamentId: string): Promise<any> {
+    const url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/front/players?turnamentId=${turnamentId}`;
+    console.log('url', url);
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log("Ошибка в запросе getPlayerByTurnament()", error);
+    }
+    return { ccc: url}
+  }
+
   async writeOneResult(oneResult: { id: any; result: any; date: any }) {
     // console.log("API SERVISE writeOneResult()", oneResult);
     let url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/oneresult`;
     // console.log('url', url);
-    let firstParam = true;
+    // let firstParam = true;
     try {
       // for (const [key, value] of Object.entries(params)) {
       //   url += (firstParam ? '?' : '&') + `${key}=${value}`;

@@ -19,6 +19,14 @@ export class ApiController {
     return this.apiService.findAll();
   }
 
+  @Get('players')
+  getPlayerByTurnament(@Query() params: any) {
+    // console.log('contr params', params);
+    const turnamentId = params.turnamentId;
+    // console.log('tid', turnamentId);
+    return this.apiService.getPlayerByTurnament(turnamentId);
+  }
+
   @Get('turnaments')
   async getTurnamentsBySportId(@Query() params: any): Promise<any> {
     const sportId = Number(params.sportId);

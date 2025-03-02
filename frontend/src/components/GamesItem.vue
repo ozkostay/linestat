@@ -4,7 +4,7 @@
     <td class="tbl">{{ new Date(item.timestamp).toLocaleDateString() }}</td>
     <td class="tbl">{{ item.player1.name }}</td>
     <td class="tbl">{{ item.player2.name }}</td>
-    <td class="tbl">{{ item.turnament.name }}</td>
+    <td class="tbl">{{ item.turnament.name }} ({{ item.turnament.id }})</td>
     <td class="tbl"><button @click="this.tdAction = 'edit'">Edit</button></td>
     <td class="tbl">{{ item.delete }}</td>
     <td class="tbl">

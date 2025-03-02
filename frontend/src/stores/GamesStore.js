@@ -48,7 +48,8 @@ export const useGamesStore = defineStore("gamesStore", {
         });
         const data = await res.json();
         console.log("action pinia data from fetch", data);
-        this.turnaments = data;
+        const newData = _.sortBy(data, ['name_ru']);
+        this.turnaments = newData;
         this.loader = false;
       } catch (error) {
         console.log("action pinia data from fetch", error);

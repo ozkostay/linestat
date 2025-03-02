@@ -38,4 +38,12 @@ export class FrontController {
     return this.frontService.getEmpty(params);
   }
 
+  @Get('players')
+  getPlayerByTurnament(@Query() params: any) {
+    console.log('contr params', params);
+    const turnamentId = Number(params.turnamentId);
+    console.log('tid', turnamentId);
+    return this.frontService.getPlayerByTurnament(turnamentId);
+  }
+
 }
