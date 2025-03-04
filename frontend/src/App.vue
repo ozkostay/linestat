@@ -7,6 +7,8 @@
       <router-view />
     </div>
     {{ gamesStore.turnaments }}
+    <hr>
+    {{ gamesStore.players }}
   </div>
 </template>
 

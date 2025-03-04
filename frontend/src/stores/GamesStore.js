@@ -5,6 +5,7 @@ export const useGamesStore = defineStore("gamesStore", {
   state: () => ({
     games: [],
     turnaments: [],
+    players: [],
     loader: false,
   }),
   actions: {
@@ -34,6 +35,29 @@ export const useGamesStore = defineStore("gamesStore", {
         console.error("Не получилось добавить результат с id=", id);
       }
       
+    },
+    nullPlayers() {this.players = []},
+
+    async getPlayers(turnamentId) {
+      console.log('store getPlayers() turnamentId=', turnamentId);
+      try {
+        this.loader = true;
+        const url = `http://localhost:13099/api/players/?turnamentId=${turnamentId}`;
+        const res = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await res.json();
+        console.log("action pinia getPlayers() data from fetch", data);
+        const newData = _.sortBy(data, ['name_ru']);
+        this.players = newData;
+        this.loader = false;
+      } catch (error) {
+        //
+        console.log('Ошибка в ыещку getPlayers()', error);
+      }
     },
     async getTurnaments(sportId) {
       try {
