@@ -13,6 +13,26 @@ export class FrontService {
     private gamesRepository: Repository<Games>,
   ) {}
 
+  async getGamesByTurnamentPlayer(params: any) {
+    let objToFind: any;
+    if(params.playerId == 'null') {
+      objToFind = {
+        where: {
+          turnament: Number(params.turnamentId),
+        }  
+      }
+    } else {
+      objToFind = {
+        where: [
+          { turnament: Number(params.turnamentId), player1: Number(params.playerId) },
+          { turnament: Number(params.turnamentId), player2: Number(params.playerId) },
+        ],
+      }
+    }
+    const games: gamesDto2[] = await this.gamesRepository.find(objToFind);
+    return games
+  }
+
   async getPlayerByTurnament(turnamentId: number): Promise<any> {
     try {
       const objToFind: any = {
@@ -70,7 +90,7 @@ export class FrontService {
     if (body.limit) {
       objToFind.take = body.limit;
     }
-    console.log('555', objToFind);
+    // console.log('555', objToFind);
 
     try {
       let games = await this.gamesRepository.find(objToFind);

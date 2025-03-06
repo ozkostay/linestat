@@ -10,6 +10,23 @@ export class ApiService {
     return `This action returns all API LINESTAT BACKFRONT`;
   }
 
+  async getLines(params: any) {
+    // const temp = [];
+    // temp.push(params);
+    // return temp;
+    // console.log('777', params);
+    const url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/front/lines?turnamentId=${params.turnamentId}&playerId=${params.playerId}`;
+    // console.log('url', url);
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      const games = await this.fillGames(data);
+      return games;
+    } catch (error) {
+      console.log('Ошибка в запросе getLines()', error);
+    }
+  }
+
   async getPlayerByTurnament(turnamentId: string): Promise<any> {
     const url = `${process.env.HOST_SERVICE_GAMES}:${process.env.SERVICE_PORT_GAMES}/front/players?turnamentId=${turnamentId}`;
     console.log('url', url);
@@ -18,9 +35,9 @@ export class ApiService {
       const data = await res.json();
       return data;
     } catch (error) {
-      console.log("Ошибка в запросе getPlayerByTurnament()", error);
+      console.log('Ошибка в запросе getPlayerByTurnament()', error);
     }
-    return { ccc: url}
+    // return { ccc: url };
   }
 
   async writeOneResult(oneResult: { id: any; result: any; date: any }) {
@@ -37,15 +54,14 @@ export class ApiService {
       const res = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json' // Указываем тип данных в теле запроса
+          'Content-Type': 'application/json', // Указываем тип данных в теле запроса
         },
-        body: JSON.stringify(oneResult)
-      })
+        body: JSON.stringify(oneResult),
+      });
       // const game: GamesDto = await res.json();
       const game: any = await res.json();
-      
-      return game;
 
+      return game;
     } catch (error) {
       throw new Error(error);
     }

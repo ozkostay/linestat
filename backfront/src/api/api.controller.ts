@@ -19,8 +19,13 @@ export class ApiController {
     return this.apiService.findAll();
   }
 
+  @Get('lines')
+  async getLines(@Query() params: any): Promise<any> {
+    return this.apiService.getLines(params);
+  }
+
   @Get('players')
-  getPlayerByTurnament(@Query() params: any) {
+  getPlayerByTurnament(@Query() params: any): Promise<any> {
     // console.log('contr params', params);
     const turnamentId = params.turnamentId;
     // console.log('tid', turnamentId);
@@ -35,14 +40,16 @@ export class ApiController {
   }
 
   @Post('oneresult')
-  async writeOneResult(@Body() oneResult: { id: any; result: any; date: any }) {
+  async writeOneResult(
+    @Body() oneResult: { id: any; result: any; date: any },
+  ): Promise<any> {
     console.log('На входе в writ  eOneResult() ', oneResult);
     const game = await this.apiService.writeOneResult(oneResult);
     return game;
   }
 
   @Get('games')
-  getGames(@Query() params: any) {
+  getGames(@Query() params: any): Promise<any> {
     console.log('==== prams', params);
     return this.apiService.getGames(params);
   }

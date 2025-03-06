@@ -46,17 +46,21 @@
 import { useGamesStore } from "@/stores/GamesStore";
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const gamesStore = useGamesStore();
-const selectedSport = ref(false);
-const selectedTurnaments = ref(false);
-const selectedPlayers = ref(false);
+const selectedSport = ref(null);
+const selectedTurnaments = ref(null);
+const selectedPlayers = ref(null);
 const { turnaments, players } = storeToRefs(gamesStore);
 
 //====== functions ====================
 const btn_sport = () => {
   // console.log("ищем турниры");
-  //selectedTurnaments.value = null;
+  selectedTurnaments.value = null;
+  selectedPlayers.value = null;
   gamesStore.nullPlayers();
   gamesStore.getTurnaments(selectedSport.value);
   // this.$router.push({
@@ -68,17 +72,19 @@ const btn_go = () => {
   console.log("спорт", selectedSport.value);
   console.log("турнир", selectedTurnaments.value);
   console.log("игрок", selectedPlayers.value);
-  // gamesStore.getTurnaments(selectedSport.value);
-  // this.$router.push({
-  //   path: "/pageone",
-  // });
+  gamesStore.getLines({
+    sportId: selectedSport.value,
+    turnamentId: selectedTurnaments.value,
+    playerId: selectedPlayers.value,
+  });
+  router.push("/appwork");
 };
 const onTurnament = () => {
   // console.log("турниры", selectedTurnaments.value);
   selectedPlayers.value = null;
   gamesStore.getPlayers(selectedTurnaments.value);
   // this.$router.push({
-  //   path: "/pageone",
+  //   path: "/appwork",
   // });
 };
 </script>

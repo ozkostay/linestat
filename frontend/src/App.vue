@@ -6,9 +6,10 @@
       <side-left-user v-if="sideStore.activeTab === 1" />
       <router-view />
     </div>
-    {{ gamesStore.turnaments }}
+    {{ gamesStore.lines }}
+    <!-- {{ gamesStore.turnaments }} -->
     <hr>
-    {{ gamesStore.players }}
+    <!-- {{ gamesStore.players }} -->
   </div>
 </template>
 
