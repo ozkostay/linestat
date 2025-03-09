@@ -4,14 +4,14 @@
     <!-- <div class="tempdiv" v-for="item in lines" :key="item.id" :item="item">
       {{ item.id }}
     </div> -->
-    <table class="tbl">
+    <!-- <table class="tbl"> -->
       <WorkHockey
         v-for="item in lines"
         :key="item.id"
         :item="item"
         @action="onAction"
       />
-    </table>
+    <!-- </table> -->
   </div>
 </template>
 

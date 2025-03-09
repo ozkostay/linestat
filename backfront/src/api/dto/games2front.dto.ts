@@ -8,4 +8,5 @@ export class Games2FrontDto {
   surface?: number;
   result?: string;
   date?: Date;
+  line?: any;
 }

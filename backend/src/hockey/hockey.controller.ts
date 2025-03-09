@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  UsePipes,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes, Query } from '@nestjs/common';
 import { HockeyService } from './hockey.service';
 import { ResultPipe } from './result.pipe';
 import { FromResulttPipe } from './dto/fromResultPipe.dto';
@@ -16,6 +10,14 @@ export class HockeyController {
     private readonly hockeyService: HockeyService,
     private readonly resultService: ResultService,
   ) {}
+
+  @Get('getfirstline')
+  async getFirstLine(@Query() params: any) {
+    const gameId = Number(params.game);
+    const line = await this.hockeyService.getFirstLine(gameId);
+    // console.log('Line===', line);
+    return line;
+  }
 
   @Post('pars')
   async receivFromPars(@Body() body: any) {

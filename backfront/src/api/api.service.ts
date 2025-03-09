@@ -3,11 +3,49 @@ import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 import { GamesDto } from './dto/games.dto';
 import { Games2FrontDto } from './dto/games2front.dto';
+import { switchScan } from 'rxjs';
 
 @Injectable()
 export class ApiService {
   findAll() {
     return `This action returns all API LINESTAT BACKFRONT`;
+  }
+
+  async addLinesToGames(games: any[]) {
+    const sport: number = games[0].sport;
+    let dbName: string;
+    // console.log('SPORT', games[0].sport);
+    switch (sport) {
+      case 1:
+        dbName = 'tennis';
+        break;
+      case 2:
+        dbName = 'football';
+        break;
+      case 3:
+        dbName = 'hockey';
+        break;
+      case 4:
+        dbName = 'basketball';
+        break;
+      default:
+        dbName = 'error';
+        break;
+    }
+    const url = `${process.env.HOST_SERVICE_BACKEND}:${process.env.SERVICE_PORT_BACKEND}/${dbName}/getfirstline?game=`;
+    const newGames = [];
+    // games.forEach(async (item: any) => {
+    for await (const item of games) {
+      try {
+        const res = await fetch(url + item.id);
+        const data = await res.json();
+        console.log('DATAA', data);
+        item.line = await data;
+      } catch (error) {
+        console.log('ERROR', error);
+      }
+    }
+    return games;
   }
 
   async getLines(params: any) {
@@ -21,7 +59,8 @@ export class ApiService {
       const res = await fetch(url);
       const data = await res.json();
       const games = await this.fillGames(data);
-      return games;
+      const gamesWithLines = await this.addLinesToGames(games);
+      return gamesWithLines;
     } catch (error) {
       console.log('Ошибка в запросе getLines()', error);
     }
@@ -113,6 +152,7 @@ export class ApiService {
         player2: await this.getPlayer(item.player2),
         result: item.result,
         date: item.date,
+        line: null,
       });
     }
 

@@ -14,8 +14,20 @@ export class HockeyService {
     private hockeyRepository: Repository<Hockey>,
     private readonly httpService: HttpService,
     private readonly linesService: LinesService,
-
   ) {}
+
+  async getFirstLine(gameId: number) {
+    const firstLine = this.hockeyRepository.find({
+      where: {
+        game_id: gameId,
+    },
+      order: {
+          id: "ASC",
+      },
+      take: 1,
+  })
+    return firstLine;
+  }
 
   async getTurnament(nameTurnament: any) {
     // Берем из микросервиса Турниров объект турнира и присваиваем в value
@@ -60,7 +72,7 @@ export class HockeyService {
 
   async receivFromPars(arrLines: any[]) {
     const sport = 'hockey';
-    
+
     // Делаем уникальные турниры
     const mapTurnamentName: any = new Map();
     arrLines.forEach((i) => {
@@ -78,25 +90,18 @@ export class HockeyService {
       mapPlayersName.set(`${i.name2}`, null);
     });
     const mapPlayers = await this.getPlayers(mapPlayersName, sport); // Получаем Map() mapPlayers с ID из сервиса Players
-    
-
-    
 
     arrLines.forEach((i) => {
       i.turnId = mapTurns.get(`${i.turnament}&&&nosurface&&&${sport}`).id; //Заполняем id турнира
-      i.sportId = mapTurns.get(
-        `${i.turnament}&&&nosurface&&&${sport}`,
-      ).sport; //Заполняем id турнира
+      i.sportId = mapTurns.get(`${i.turnament}&&&nosurface&&&${sport}`).sport; //Заполняем id турнира
       i.surfaceId = mapTurns.get(
         `${i.turnament}&&&nosurface&&&${sport}`,
       ).surface; //Заполняем id покрытия
-      console.log('999-2',i.name1);
+      console.log('999-2', i.name1);
       i.name1Id = mapPlayers.get(`${i.name1}`).id; //Заполняем id Игрока1
       i.name2Id = mapPlayers.get(`${i.name2}`).id; //Заполняем id Игрока2
     });
-
-    console.log('888', arrLines[2]);
-    
+    // console.log('888', arrLines[2]);
     // Работаем с сервисом GAMES
     // : Observable<AxiosResponse<any, any>>;
     const makeGames = async () => {
@@ -112,13 +117,9 @@ export class HockeyService {
       // console.log('DATA333', data);
       return data;
     };
-    
-   
-    const dataFromGames = await makeGames();
-    
-    
-    console.log('!!!W dataFromGames)= ', dataFromGames);
 
+    const dataFromGames = await makeGames();
+    // console.log('!!!W dataFromGames)= ', dataFromGames);
     const resLines = this.linesService.addLines(dataFromGames); // Добавляем линии
 
     return { status: 200, sport: sport };
