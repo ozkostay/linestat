@@ -69,14 +69,15 @@ const btn_sport = () => {
 };
 
 const btn_go = () => {
-  console.log("спорт", selectedSport.value);
-  console.log("турнир", selectedTurnaments.value);
-  console.log("игрок", selectedPlayers.value);
+  // console.log("спорт", selectedSport.value);
+  // console.log("турнир", selectedTurnaments.value);
+  // console.log("игрок", selectedPlayers.value);
   gamesStore.getLines({
     sportId: selectedSport.value,
     turnamentId: selectedTurnaments.value,
     playerId: selectedPlayers.value,
   });
+  gamesStore.setCurentPlayer(selectedPlayers.value);
   router.push("/appwork");
 };
 const onTurnament = () => {

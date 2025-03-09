@@ -8,8 +8,12 @@ export const useGamesStore = defineStore("gamesStore", {
     players: [],
     lines: [],
     loader: false,
+    curentPlayer: null,
   }),
   actions: {
+    setCurentPlayer(playerId) {
+      this.curentPlayer = this.players.find((player) => player.id === playerId);
+    },
     async addResult(id, result, date) {
       const objResult = {
         id,

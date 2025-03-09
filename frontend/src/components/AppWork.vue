@@ -9,7 +9,6 @@
         v-for="item in lines"
         :key="item.id"
         :item="item"
-        @action="onAction"
       />
     <!-- </table> -->
   </div>

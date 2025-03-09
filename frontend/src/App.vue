@@ -9,7 +9,7 @@
     {{ gamesStore.lines }}
     <!-- {{ gamesStore.turnaments }} -->
     <hr>
-    <!-- {{ gamesStore.players }} -->
+    {{ gamesStore.players }}
   </div>
 </template>
 
