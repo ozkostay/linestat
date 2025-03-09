@@ -177,9 +177,7 @@ const kefsColor = computed(() => {
     } else {
       // empty
     }
-    // item.line[0].total_value
-    // item.line[0].total_under_odds;
-    // item.line[0].total_over_odds;
+
     const total = result1Num + result2Num;
     if (total >  props.item.line[0].total_value) {
       colors.total_under_odds = "pink";
@@ -194,7 +192,7 @@ const kefsColor = computed(() => {
   return colors;
 });
 
-console.log("222", props.item.player1.name, curentPlayer.value.name_ru);
+// console.log("222", props.item.player1.name, curentPlayer.value.name_ru);
 </script>
 
 <style scoped>
@@ -227,11 +225,9 @@ console.log("222", props.item.player1.name, curentPlayer.value.name_ru);
 }
 .player1 {
   padding-left: 7px;
-  /* padding-right: 13px; */
   font-weight: 700;
 }
 .player2 {
-  /* padding-left: 13px; */
   padding-right: 7px;
   font-weight: 700;
   text-align: right;
@@ -246,7 +242,7 @@ console.log("222", props.item.player1.name, curentPlayer.value.name_ru);
   color: white;
   background-color: chocolate;
 }
-.color-green {
+/* .color-green {
   color: green;
-}
+} */
 </style>
