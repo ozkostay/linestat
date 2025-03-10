@@ -45,7 +45,8 @@ export default {
 <style scoped>
 .side-wrap {
   border: 1px solid red;
-  min-width: 250px;
+  width: 200px;
+  box-sizing: border-box;
   padding: 10px 0;
 }
 

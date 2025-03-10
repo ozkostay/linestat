@@ -40,9 +40,10 @@ h1 {
 }
 
 .btn-conteiner {
-  width: 250px;
+  width: 200px;
   display: flex;
   align-items: stretch; /* Растягиваем кнопку по высоте контейнера */
+  box-sizing: border-box;
 }
 
 .header-btn {
@@ -54,7 +55,7 @@ h1 {
 
 .header-title {
   flex-grow: 1;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   height: 50px;
 }
 </style>

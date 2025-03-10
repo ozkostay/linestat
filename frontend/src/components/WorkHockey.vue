@@ -1,5 +1,5 @@
 <template>
-  <div class="tbl-row">
+  <!-- <div class="tbl-row">
     <div class="odd">
       <div class="player1" :style="{ color: textColor1 }">
         {{ item.player1.name }}
@@ -65,6 +65,106 @@
     <div class="even bisque">{{ item.line[0].total_value }}</div>
     <div class="even" :style="{ backgroundColor: kefsColor.total_under_odds }">{{ item.line[0].total_under_odds }}</div>
     <div class="even" :style="{ backgroundColor: kefsColor.total_over_odds }">{{ item.line[0].total_over_odds }}</div>
+  </div> -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th colspan="3">{{ new Date(item.date).toLocaleDateString() }}</th>
+          <th></th>
+          <th colspan="8">
+            <div class="odd">
+              <div class="player1" :style="{ color: textColor1 }">
+                {{ item.player1.name }}
+              </div>
+              <div class="player2" :style="{ color: textColor2 }">
+                {{ item.player2.name }}
+              </div>
+            </div>
+          </th>
+          <th></th>
+          <th colspan="3"><strong>{{ item.result }}</strong></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="title">1</td>
+          <td class="title">x</td>
+          <td class="title">2</td>
+          <td></td>
+          <td class="title">1x</td>
+          <td class="title">12</td>
+          <td class="title">x2</td>
+          <td></td>
+          <td class="title" colspan="2">фора 1</td>
+          <td class="title" colspan="2">фора 2</td>
+          <td></td>
+          <td class="title">тотал</td>
+          <td class="title">мен</td>
+          <td class="title">бол</td>
+        </tr>
+        <tr>
+          <td class="even" :style="{ backgroundColor: kefsColor.win1_odds }">
+            {{ item.line[0].win1_odds }}
+          </td>
+          <td class="even" :style="{ backgroundColor: kefsColor.draw_odds }">
+            {{ item.line[0].draw_odds }}
+          </td>
+          <td class="even" :style="{ backgroundColor: kefsColor.win2_odds }">
+            {{ item.line[0].win2_odds }}
+          </td>
+          <td></td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.double_1x_odds }"
+          >
+            {{ item.line[0].double_1x_odds }}
+          </td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.double_12_odds }"
+          >
+            {{ item.line[0].double_12_odds }}
+          </td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.double_x2_odds }"
+          >
+            {{ item.line[0].double_x2_odds }}
+          </td>
+          <td></td>
+          <td class="even bisque">{{ item.line[0].handicap1_value }}</td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.handicap1_odds }"
+          >
+            {{ item.line[0].handicap1_odds }}
+          </td>
+          <td class="even bisque">{{ item.line[0].handicap2_value }}</td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.handicap1_odds }"
+          >
+            {{ item.line[0].handicap2_odds }}
+          </td>
+          <td></td>
+          <td class="even bisque">{{ item.line[0].total_value }}</td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.total_under_odds }"
+          >
+            {{ item.line[0].total_under_odds }}
+          </td>
+          <td
+            class="even"
+            :style="{ backgroundColor: kefsColor.total_over_odds }"
+          >
+            {{ item.line[0].total_over_odds }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -179,7 +279,7 @@ const kefsColor = computed(() => {
     }
 
     const total = result1Num + result2Num;
-    if (total >  props.item.line[0].total_value) {
+    if (total > props.item.line[0].total_value) {
       colors.total_under_odds = "pink";
       colors.total_over_odds = "PaleGreen";
     } else if (total < props.item.line[0].total_value) {
@@ -203,12 +303,12 @@ const kefsColor = computed(() => {
   text-align: left;
   display: flex;
   justify-content: space-between;
-  min-width: 390px;
+  /* min-width: 390px; */
 }
 .even {
-  width: calc(100% / 14);
-  border: 1px solid black;
-  padding: 3px;
+  width: 44px;
+  border: 1px solid grey;
+  padding: 3px 0;
 }
 .even-double {
   width: calc(100% / 6.5);
@@ -238,11 +338,38 @@ const kefsColor = computed(() => {
 .title {
   height: 20px;
   font-weight: 700;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   color: white;
   background-color: chocolate;
+  border: 1px solid grey;
 }
 /* .color-green {
   color: green;
 } */
+table {
+  border-collapse: collapse;
+  width: 590px;
+  margin: 5px;
+  font-size: 0.8rem;
+}
+
+th,
+td {
+  /* border: 1px solid black; */
+  padding: 0 4px;
+  text-align: center;
+}
+
+th {
+  background-color: #ffe599;
+}
+
+.table-container {
+  display: flex; /* Используем flexbox для расположения таблиц в линию */
+}
+
+.table-container table {
+  margin-right: 10px; /* Добавляем отступ между таблицами */
+}
+
 </style>

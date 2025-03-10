@@ -94,8 +94,9 @@ const onTurnament = () => {
 <style scoped>
 .side-wrap {
   border: 1px solid red;
-  width: 250px;
   padding: 10px 0;
+  width: 200px;
+  box-sizing: border-box;
 }
 
 .sb-btn {
